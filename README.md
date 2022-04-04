@@ -3,7 +3,7 @@
 
 **Členové týmu:**
 
-Lukáš Novák, Kryštof Müller, Ivan Shalaev, Eduard Nurmukhametov
+Kryštof Müller, Lukáš Novák, Ivan Shalaev, Eduard Nurmukhametov
 
 **Popis projektu:**
 
