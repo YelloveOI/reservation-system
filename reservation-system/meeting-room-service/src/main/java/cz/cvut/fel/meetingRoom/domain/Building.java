@@ -1,0 +1,22 @@
+package cz.cvut.fel.NSSreservations.microservice.logic.MeetingRoom.model;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.List;
+
+@Entity
+public class Building extends AbstractEntity {
+
+    @Getter
+    @Setter
+    private String name;
+
+    @Getter
+    @Setter
+    @OneToMany
+    private List<MeetingRoom> meetingRoomList;
+
+}
