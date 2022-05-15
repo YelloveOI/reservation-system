@@ -1,11 +1,10 @@
-package cz.cvut.fel.NSSreservations.microservice.logic.MeetingRoom.model;
+package cz.cvut.fel.meetingRoom.domain;
 
+import cz.cvut.fel.meetingRoom.enums.Equipment;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -13,15 +12,15 @@ public class MeetingRoom extends AbstractEntity {
 
     @Getter
     @Setter
-    private Integer capacity;
+    private int capacity;
 
     @Getter
     @Setter
-    private Integer floorNumber;
+    private int floorNumber;
 
     @Getter
     @Setter
-    private Boolean isActive;
+    private boolean isActive;
 
     @Getter
     @Setter
@@ -29,21 +28,27 @@ public class MeetingRoom extends AbstractEntity {
 
     @Getter
     @Setter
-    private Integer pricePerHour;
+    private int pricePerHour;
 
     @Getter
     @Setter
-    private Boolean isPrior;
+    private boolean prioritized;
 
     @Getter
     @Setter
-    @ManyToOne
-    private Building building;
+    @OneToMany
+    private List<String> equipments;
 
-    @Getter
-    @Setter
-    @ManyToMany
-    private List<Equipment> equipmentList;
+    public void addEquipment(Equipment equipment) {
+        equipments.add(equipment.name());
+    }
 
+    public void removeEquipment(Equipment equipment) {
+        equipments.remove(equipment.name());
+    }
+
+    public boolean hasEquipment(Equipment equipment) {
+        return equipments.contains(equipment.name());
+    }
 
 }

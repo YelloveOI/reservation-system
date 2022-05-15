@@ -1,4 +1,4 @@
-package cz.cvut.fel.NSSreservations.microservice.logic.MeetingRoom.model;
+package cz.cvut.fel.meetingRoom.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +17,6 @@ public class Building extends AbstractEntity {
     @Getter
     @Setter
     @OneToMany
-    private List<MeetingRoom> meetingRoomList;
+    private List<MeetingRoom> roomList;
 
 }

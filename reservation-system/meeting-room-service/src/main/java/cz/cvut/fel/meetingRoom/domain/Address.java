@@ -1,4 +1,4 @@
-package cz.cvut.fel.NSSreservations.microservice.logic.MeetingRoom.model;
+package cz.cvut.fel.meetingRoom.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +19,10 @@ public class Address extends AbstractEntity {
 
     @Getter
     @Setter
+    private String street;
+
+    @Getter
+    @Setter
     private String houseNumber;
 
     @Getter
@@ -27,11 +31,7 @@ public class Address extends AbstractEntity {
 
     @Getter
     @Setter
-    private String street;
-
-    @Getter
-    @Setter
     @OneToOne
-    private Building build;
+    private Building building;
 
 }
