@@ -1,4 +1,4 @@
-package cz.cvut.fel.meetingRoom.domain;
+package cz.cvut.fel.invoice.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,12 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-abstract public class AbstractEntity {
+public class AbstractEntity {
 
-    @Getter
-    @Setter
     @Id
     @GeneratedValue
-    Integer id;
+    @Getter
+    @Setter
+    private Integer id;
 
 }

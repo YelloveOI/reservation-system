@@ -1,4 +1,4 @@
-package cz.cvut.fel.meetingRoom.config;
+package cz.cvut.fel.invoice.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;

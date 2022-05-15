@@ -1,4 +1,4 @@
-package cz.cvut.fel.meetingRoom.config;
+package cz.cvut.fel.invoice.config;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration;
