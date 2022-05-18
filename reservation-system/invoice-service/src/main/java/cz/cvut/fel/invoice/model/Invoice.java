@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Period;
 
 @Entity
 public class Invoice extends AbstractEntity {
@@ -32,7 +33,23 @@ public class Invoice extends AbstractEntity {
     @ManyToOne
     private User owner;
 
-    /*@Getter
+    @Getter
     @Setter
-    private boolean isRemoved;*/
+    private boolean paid;
+
+    @Getter
+    @Setter
+    private boolean isRemoved;
+
+    public Invoice(Integer amount) {
+        this.amount = amount;
+        creationDate = LocalDate.now();
+        creationTime = LocalTime.now();
+        PaymentDeadline = LocalDate.now().plus(Period.ofDays(15));
+        owner = SecurityUtils.getCurrentUser();
+        paid = false;
+        isRemoved = false;
+    }
+
+    public Invoice() {}
 }

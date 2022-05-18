@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import cz.cvut.fel.invoice.exception.NotFoundException;
 import cz.cvut.fel.invoice.model.Invoice;
 import cz.cvut.fel.invoice.repo.InvoiceRepo;
+import cz.cvut.fel.invoice.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,14 +44,13 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void save(@NotNull Invoice invoice) throws Exception {
-        if (invoice.getOwner() != null) {
-            if (!invoice.getOwner().getId().equals(SecurityUtils.getCurrentUser().getId())) {
-                throw new Exception("You can't save someone else's invoice.");
-            }
-        }
-        invoice.setOwner(SecurityUtils.getCurrentUser());
-        repo.save(invoice);
+    public Invoice save(@NotNull int price) {
+        return repo.save(new Invoice(price));
+    }
+
+    @Override
+    public void payInvoice(int id) throws Exception {
+        findById(id).setPaid(true);
     }
 
     /* ADMIN **/
@@ -70,8 +70,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         return repo.findAllByOwnerId(id);
     }
 
-    // Retired
-    /*@Override
+    @Override
     public void deleteById(@NotNull Integer id) {
         Optional<Invoice> toDelete = repo.findById(id);
         if (toDelete.isPresent()) {
@@ -82,5 +81,5 @@ public class InvoiceServiceImpl implements InvoiceService {
         } else {
             throw NotFoundException.create(Invoice.class.getName(), id);
         }
-    }*/
+    }
 }

@@ -10,11 +10,13 @@ public interface InvoiceService {
 
     List<Invoice> getMyInvoices();
 
-    void save(Invoice invoice) throws Exception;
+    Invoice save(int price);
 
     Invoice findByIdAdmin(Integer id);
 
     List<Invoice> getUserInvoicesAdmin(Integer id);
 
-    /*void deleteById(Integer id);*/
+    void deleteById(Integer id);
+
+    void payInvoice(int id) throws Exception;
 }

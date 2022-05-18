@@ -30,7 +30,7 @@ public class InvoiceController {
 
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @GetMapping("/{id}")
-    public Invoice getDeck(@PathVariable int id) {
+    public Invoice getInvoice(@PathVariable int id) {
         Invoice invoice;
         try {
             invoice = invoiceService.findById(id);
@@ -61,20 +61,35 @@ public class InvoiceController {
     }
 
     /**
-     * @param invoice to store (doesn't need to have an owner)
+     * @param price price of the meeting room
      * @return Created/Bad request
      */
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PostMapping(value = "/new", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> addInvoice(@RequestBody Invoice invoice) {
+    public ResponseEntity<?> createInvoice(@RequestBody int price) {
+        Invoice invoice;
         try {
-            invoiceService.save(invoice);
+            invoice = invoiceService.save(price);
         } catch (Exception e) {
-            LOG.warn("Invoice could not be added! {}", e.getMessage());
+            LOG.warn("Invoice could not be created! {}", e.getMessage());
             return ResponseEntity.badRequest().body("WRONG");
         }
-        LOG.debug("Invoice ID \"{}\" has been added.", invoice.getId());
+        LOG.debug("Invoice ID \"{}\" has been created.", invoice.getId());
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", invoice.getId());
+        return ResponseEntity.ok().headers(headers).body("OK");
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PostMapping("/payment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> payForInvoice(@PathVariable int id) {
+        try {
+            invoiceService.payInvoice(id);
+        } catch (Exception e) {
+            LOG.warn("Invoice could not be paid for! {}", e.getMessage());
+            return ResponseEntity.badRequest().body("WRONG");
+        }
+        LOG.debug("Invoice ID \"{}\" was paid for.", id);
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", id);
         return ResponseEntity.ok().headers(headers).body("OK");
     }
 
@@ -112,8 +127,7 @@ public class InvoiceController {
         return invoices;
     }
 
-    // Retired
-    /*@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping("/deletion/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<Void> deleteInvoice(@PathVariable int id) {
@@ -125,5 +139,5 @@ public class InvoiceController {
         }
         LOG.debug("Invoice ID \"{}\" has been deleted.", id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }*/
+    }
 }
