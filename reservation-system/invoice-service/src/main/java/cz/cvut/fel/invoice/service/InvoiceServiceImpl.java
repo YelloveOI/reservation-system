@@ -27,7 +27,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         Optional<Invoice> result = repo.findById(id);
         if (result.isPresent()) {
             Invoice invoice = result.get();
-            if (!invoice.isDeleted() && invoice.getOwner().getId().equals(SecurityUtils.getCurrentUser().getId())) {
+            if (invoice.getOwner().getId().equals(SecurityUtils.getCurrentUser().getId())) {
                 return invoice;
             } else {
                 throw new Exception("This deck doesn't belong to you.");
@@ -70,16 +70,17 @@ public class InvoiceServiceImpl implements InvoiceService {
         return repo.findAllByOwnerId(id);
     }
 
-    @Override
+    // Retired
+    /*@Override
     public void deleteById(@NotNull Integer id) {
         Optional<Invoice> toDelete = repo.findById(id);
         if (toDelete.isPresent()) {
             Invoice invoice = toDelete.get();
-            invoice.setDeleted(true);
+            invoice.setRemoved(true);
 
             repo.save(toDelete.get());
         } else {
             throw NotFoundException.create(Invoice.class.getName(), id);
         }
-    }
+    }*/
 }

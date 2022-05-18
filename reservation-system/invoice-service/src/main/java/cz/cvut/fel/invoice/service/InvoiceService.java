@@ -16,5 +16,5 @@ public interface InvoiceService {
 
     List<Invoice> getUserInvoicesAdmin(Integer id);
 
-    void deleteById(Integer id);
+    /*void deleteById(Integer id);*/
 }

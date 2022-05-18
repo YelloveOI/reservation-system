@@ -32,7 +32,7 @@ public class Invoice extends AbstractEntity {
     @ManyToOne
     private User owner;
 
-    @Getter
+    /*@Getter
     @Setter
-    private boolean isDeleted;
+    private boolean isRemoved;*/
 }

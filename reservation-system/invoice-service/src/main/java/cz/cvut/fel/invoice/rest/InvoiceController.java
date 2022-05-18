@@ -98,7 +98,7 @@ public class InvoiceController {
      * Get current user's invoices.
      * @return Current user's invoices
      */
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/admin/{id}")
     public List<Invoice> getUserInvoicesAdmin(@PathVariable int id) {
         List<Invoice> invoices;
@@ -112,7 +112,8 @@ public class InvoiceController {
         return invoices;
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    // Retired
+    /*@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping("/deletion/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<Void> deleteInvoice(@PathVariable int id) {
@@ -124,5 +125,5 @@ public class InvoiceController {
         }
         LOG.debug("Invoice ID \"{}\" has been deleted.", id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
+    }*/
 }
