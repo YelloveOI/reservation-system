@@ -3,7 +3,7 @@ package cz.cvut.fel.invoice.service;
 import com.sun.istack.NotNull;
 import cz.cvut.fel.invoice.exception.NotFoundException;
 import cz.cvut.fel.invoice.model.Invoice;
-import cz.cvut.fel.invoice.repo.InvoiceRepo;
+import cz.cvut.fel.invoice.repository.InvoiceRepository;
 import cz.cvut.fel.invoice.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +16,10 @@ import java.util.Optional;
 @Transactional
 public class InvoiceServiceImpl implements InvoiceService {
 
-    private final InvoiceRepo repo;
+    private final InvoiceRepository repo;
 
     @Autowired
-    public InvoiceServiceImpl(InvoiceRepo repo) {
+    public InvoiceServiceImpl(InvoiceRepository repo) {
         this.repo = repo;
     }
 
@@ -28,10 +28,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         Optional<Invoice> result = repo.findById(id);
         if (result.isPresent()) {
             Invoice invoice = result.get();
-            if (invoice.getOwner().getId().equals(SecurityUtils.getCurrentUser().getId())) {
+            if (invoice.getOwnerId().equals(SecurityUtils.getCurrentUser().getId())) {
                 return invoice;
             } else {
-                throw new Exception("This deck doesn't belong to you.");
+                throw new Exception("This invoice doesn't belong to you.");
             }
         } else {
             throw NotFoundException.create(Invoice.class.getName(), id);

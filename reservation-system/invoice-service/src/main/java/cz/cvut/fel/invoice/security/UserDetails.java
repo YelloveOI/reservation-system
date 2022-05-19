@@ -1,5 +1,7 @@
 package cz.cvut.fel.invoice.security;
 
+import cz.cvut.fel.invoice.enums.Role;
+import cz.cvut.fel.invoice.model.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,7 +32,7 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return null;
     }
 
     @Override

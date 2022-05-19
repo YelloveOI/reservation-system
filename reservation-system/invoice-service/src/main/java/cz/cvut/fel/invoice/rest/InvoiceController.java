@@ -28,6 +28,11 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
+    /**
+     * Returns given invoice if authored to do so.
+     * @param id ID of invoice
+     * @return invoice with given ID
+     */
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @GetMapping("/{id}")
     public Invoice getInvoice(@PathVariable int id) {
@@ -61,8 +66,9 @@ public class InvoiceController {
     }
 
     /**
+     * Assigns new invoice to current user by receiving price.
      * @param price price of the meeting room
-     * @return Created/Bad request
+     * @return Ok/Bad request
      */
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PostMapping(value = "/new", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -79,9 +85,14 @@ public class InvoiceController {
         return ResponseEntity.ok().headers(headers).body("OK");
     }
 
+    /**
+     * Paying for given invoice.
+     * @param id ID of given invoice.
+     * @return Ok/Bad request
+     */
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    @PostMapping("/payment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> payForInvoice(@PathVariable int id) {
+    @PostMapping(value = "/payment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> payForInvoice(@RequestBody int id) {
         try {
             invoiceService.payInvoice(id);
         } catch (Exception e) {
@@ -95,6 +106,11 @@ public class InvoiceController {
 
     /* ADMIN **/
 
+    /**
+     * Return any given invoice to admin.
+     * @param id ID of invoice
+     * @return invoice with given ID
+     */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/admin/{id}")
     public Invoice getDeckAdmin(@PathVariable int id) {
@@ -110,7 +126,7 @@ public class InvoiceController {
     }
 
     /**
-     * Get current user's invoices.
+     * Get given user's invoices to an admin.
      * @return Current user's invoices
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -127,6 +143,11 @@ public class InvoiceController {
         return invoices;
     }
 
+    /**
+     * Delete given invoice by admin.
+     * @param id ID of given invoice
+     * @return Bad Request/Accepted
+     */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping("/deletion/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)

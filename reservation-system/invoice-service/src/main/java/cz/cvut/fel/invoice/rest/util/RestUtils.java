@@ -26,22 +26,4 @@ public class RestUtils {
         return headers;
     }
 
-    public static HttpHeaders createCardAnswerRightHeaders(String path, Object... uriVariableValues) {
-        final URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path(path).buildAndExpand(
-                uriVariableValues).toUri();
-        final HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.LOCATION, location.toASCIIString());
-        headers.set("answer","ok");
-        return headers;
-    }
-
-    public static HttpHeaders createCardAnswerWrongHeaders(String path, Object... uriVariableValues) {
-        final URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path(path).buildAndExpand(
-                uriVariableValues).toUri();
-        final HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.LOCATION, location.toASCIIString());
-        headers.set("answer","wrong");
-        return headers;
-    }
-
 }

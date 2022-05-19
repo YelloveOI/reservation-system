@@ -1,5 +1,6 @@
 package cz.cvut.fel.invoice.security.service;
 
+import cz.cvut.fel.invoice.model.User;
 import cz.cvut.fel.invoice.security.UserDetails;
 import lombok.RequiredArgsConstructor;
 

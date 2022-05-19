@@ -1,6 +1,7 @@
 package cz.cvut.fel.invoice.security.filters;
 
 import com.auth0.jwt.JWT;
+import cz.cvut.fel.invoice.security.SecurityConstants;
 import cz.cvut.fel.invoice.security.UserDetails;
 import cz.cvut.fel.invoice.security.service.UserDetailsService;
 import lombok.RequiredArgsConstructor;

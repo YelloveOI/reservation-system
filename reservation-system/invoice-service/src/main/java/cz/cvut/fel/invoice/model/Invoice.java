@@ -1,5 +1,6 @@
 package cz.cvut.fel.invoice.model;      // ?
 
+import cz.cvut.fel.invoice.security.SecurityUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,7 +32,7 @@ public class Invoice extends AbstractEntity {
     @Getter
     @Setter
     @ManyToOne
-    private User owner;
+    private Integer ownerId;
 
     @Getter
     @Setter
@@ -46,7 +47,7 @@ public class Invoice extends AbstractEntity {
         creationDate = LocalDate.now();
         creationTime = LocalTime.now();
         PaymentDeadline = LocalDate.now().plus(Period.ofDays(15));
-        owner = SecurityUtils.getCurrentUser();
+        ownerId = SecurityUtils.getCurrentUser().getId();
         paid = false;
         isRemoved = false;
     }

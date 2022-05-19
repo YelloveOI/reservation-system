@@ -1,6 +1,7 @@
 package cz.cvut.fel.invoice.security;
 
 import com.auth0.jwt.JWT;
+import cz.cvut.fel.invoice.model.User;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
