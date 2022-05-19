@@ -19,9 +19,14 @@ Jedná se o informační systém, který bude sloužit k rezervaci zasedacích m
 | **Užívatelé** | **Umožněné funkce** |
 | ------ | ------ |
 | **Zákazník** | **přehled** dostupných místností, **informace** o nich, možnost je **filtrovat** a jejich **rezervace** |
-| **Zaměstnanec** | vše, co Zákazník a navíc **přehled všech existujících místností**, jejich **blokování** a **rušení rezervací** |
-| **Správce systému** | vše, co Zaměstnanec a navíc možnost **přidávat/odebírat místnosti** a **přidávat nové uživatele** a nastavovat jejich **přístupová práva** |
+| **Zaměstnanec** | **přehled všech existujících místností**, jejich **blokování** a **rušení rezervací** |
+| **Správce systému** | **přidávat/odebírat místnosti** a **přidávat nové uživatele** a nastavovat jejich **přístupová práva** |
 
 **Určen pro:**
 
 Firmy spravující kancelářskou budovu nebo budovy se zasedacími místnostmi.
+
+Není: Frontend
+
+Je: Component diagram, Business requirements, Functional and Non-functional requirements, Sequence diagrams, Use-Case diagrams, Class diagram, téměř backend.
+	Design patterns: Dependency Injection (DI), Inversion of Control (IoC)
