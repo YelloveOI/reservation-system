@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import cz.cvut.fel.invoice.exception.NotFoundException;
 import cz.cvut.fel.invoice.model.Invoice;
 import cz.cvut.fel.invoice.repo.InvoiceRepo;
+import cz.cvut.fel.invoice.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         Optional<Invoice> result = repo.findById(id);
         if (result.isPresent()) {
             Invoice invoice = result.get();
-            if (!invoice.isDeleted() && invoice.getOwner().getId().equals(SecurityUtils.getCurrentUser().getId())) {
+            if (invoice.getOwner().getId().equals(SecurityUtils.getCurrentUser().getId())) {
                 return invoice;
             } else {
                 throw new Exception("This deck doesn't belong to you.");
@@ -43,14 +44,13 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void save(@NotNull Invoice invoice) throws Exception {
-        if (invoice.getOwner() != null) {
-            if (!invoice.getOwner().getId().equals(SecurityUtils.getCurrentUser().getId())) {
-                throw new Exception("You can't save someone else's invoice.");
-            }
-        }
-        invoice.setOwner(SecurityUtils.getCurrentUser());
-        repo.save(invoice);
+    public Invoice save(@NotNull int price) {
+        return repo.save(new Invoice(price));
+    }
+
+    @Override
+    public void payInvoice(int id) throws Exception {
+        findById(id).setPaid(true);
     }
 
     /* ADMIN **/
@@ -75,7 +75,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         Optional<Invoice> toDelete = repo.findById(id);
         if (toDelete.isPresent()) {
             Invoice invoice = toDelete.get();
-            invoice.setDeleted(true);
+            invoice.setRemoved(true);
 
             repo.save(toDelete.get());
         } else {
