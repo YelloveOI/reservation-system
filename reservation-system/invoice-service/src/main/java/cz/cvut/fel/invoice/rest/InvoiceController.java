@@ -66,16 +66,16 @@ public class InvoiceController {
     }
 
     /**
-     * Assigns new invoice to current user by receiving price.
+     * Assigns new invoice to the current user by receiving reservation ID and price.
      * @param price price of the meeting room
      * @return Ok/Bad request
      */
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @PostMapping(value = "/new", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createInvoice(@RequestBody int price) {
+    public ResponseEntity<?> createInvoice(@RequestBody int reservationId, @RequestBody int price) {
         Invoice invoice;
         try {
-            invoice = invoiceService.save(price);
+            invoice = invoiceService.save(reservationId, price);
         } catch (Exception e) {
             LOG.warn("Invoice could not be created! {}", e.getMessage());
             return ResponseEntity.badRequest().body("WRONG");

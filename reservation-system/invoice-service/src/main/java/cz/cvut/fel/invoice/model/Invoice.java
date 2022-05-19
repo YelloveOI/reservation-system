@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Period;
@@ -36,18 +37,24 @@ public class Invoice extends AbstractEntity {
 
     @Getter
     @Setter
+    @OneToOne
+    private Integer reservationId;
+
+    @Getter
+    @Setter
     private boolean paid;
 
     @Getter
     @Setter
     private boolean isRemoved;
 
-    public Invoice(Integer amount) {
+    public Invoice(Integer reservationId, Integer amount) {
         this.amount = amount;
         creationDate = LocalDate.now();
         creationTime = LocalTime.now();
         PaymentDeadline = LocalDate.now().plus(Period.ofDays(15));
         ownerId = SecurityUtils.getCurrentUser().getId();
+        this.reservationId = reservationId;
         paid = false;
         isRemoved = false;
     }

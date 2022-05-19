@@ -10,7 +10,7 @@ public interface InvoiceService {
 
     List<Invoice> getMyInvoices();
 
-    Invoice save(int price);
+    Invoice save(int reservationId, int price);
 
     Invoice findByIdAdmin(Integer id);
 

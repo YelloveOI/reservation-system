@@ -44,8 +44,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public Invoice save(@NotNull int price) {
-        return repo.save(new Invoice(price));
+    public Invoice save(@NotNull int reservationId, @NotNull int price) {
+        return repo.save(new Invoice(reservationId, price));
     }
 
     @Override
