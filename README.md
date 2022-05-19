@@ -26,7 +26,6 @@ Jedná se o informační systém, který bude sloužit k rezervaci zasedacích m
 
 Firmy spravující kancelářskou budovu nebo budovy se zasedacími místnostmi.
 
-Není: Frontend
-
-Je: Component diagram, Business requirements, Functional and Non-functional requirements, Sequence diagrams, Use-Case diagrams, Class diagram, téměř backend.
+**Není:** Frontend
+**Je:** Component diagram, Business requirements, Functional and Non-functional requirements, Sequence diagrams, Use-Case diagrams, Class diagram, téměř backend.
 	Design patterns: Dependency Injection (DI), Inversion of Control (IoC)
