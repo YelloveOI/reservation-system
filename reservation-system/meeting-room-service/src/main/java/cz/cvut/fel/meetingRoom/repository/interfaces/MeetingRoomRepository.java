@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MeetingRoomRepository extends CrudRepository<MeetingRoom, Integer> {
+
+    void deleteById(Integer id);
 }

@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BuildingRepository extends CrudRepository<Building, Integer> {
+
+    void deleteById(Integer id);
+
 }

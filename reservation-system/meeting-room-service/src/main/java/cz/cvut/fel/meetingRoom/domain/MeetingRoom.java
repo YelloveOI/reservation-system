@@ -1,6 +1,6 @@
 package cz.cvut.fel.meetingRoom.domain;
 
-import cz.cvut.fel.meetingRoom.enums.Equipment;
+import cz.cvut.fel.meetingRoom.enums.EquipmentType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,19 +36,31 @@ public class MeetingRoom extends AbstractEntity {
 
     @Getter
     @Setter
+    private List<Integer> reservations;
+
+    @Getter
+    @Setter
     @OneToMany
-    private List<String> equipments;
+    private List<Equipment> equipmentTypes;
+
+    public void addReservationId(Integer reservationId) {
+        reservations.add(reservationId);
+    }
+
+    public void removeReservationId(Integer reservationId) {
+        reservations.remove(reservationId);
+    }
 
     public void addEquipment(Equipment equipment) {
-        equipments.add(equipment.name());
+        equipmentTypes.add(equipment);
     }
 
     public void removeEquipment(Equipment equipment) {
-        equipments.remove(equipment.name());
+        equipmentTypes.remove(equipment);
     }
 
     public boolean hasEquipment(Equipment equipment) {
-        return equipments.contains(equipment.name());
+        return equipmentTypes.contains(equipment);
     }
 
 }
