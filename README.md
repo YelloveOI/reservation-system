@@ -14,7 +14,6 @@ Jedná se o informační systém, který bude sloužit k rezervaci zasedacích m
 - Informace o **obsazenosti** místností
 - Informace o **dostupném vybavení** místností
 - **Prioritizace** vybraných místností na základě obsazenosti ostatních místností
-- **UI prostředí**
 
 | **Užívatelé** | **Umožněné funkce** |
 | ------ | ------ |
