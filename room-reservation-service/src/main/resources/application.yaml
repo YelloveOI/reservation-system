@@ -1,0 +1,26 @@
+server:
+  port: 9001
+spring:
+  jpa:
+    generate-ddl: true
+    show-sql: false
+    open-in-view: false
+    spring:
+      jpa:
+        database-platform: org.eclipse.persistence.platform.database.PostgreSQLPlatform
+#  kafka:
+#    consumer:
+#      bootstrap-servers: localhost:9092
+#      group-id: group-id
+#      auto-offset-reset: earliest
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#    producer:
+#      bootstrap-servers: localhost:9092
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/room-reservation-service
+    username: postgres
+    password: 82Ohisas
