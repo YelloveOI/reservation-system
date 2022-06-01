@@ -1,17 +1,24 @@
 package events;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
 public abstract class ReservationEvent {
 
     @Getter
-    private final String eventId;
+    @Setter
+    public String eventId;
     @Getter
-    private final Long timestamp;
+    @Setter
+    public Long timestamp;
     @Getter
-    private final Integer reservationId;
+    @Setter
+    public Integer reservationId;
+
+    public ReservationEvent() {
+    }
 
     public ReservationEvent(Integer reservationId) {
         this(UUID.randomUUID().toString().substring(0, 7), System.currentTimeMillis(), reservationId);

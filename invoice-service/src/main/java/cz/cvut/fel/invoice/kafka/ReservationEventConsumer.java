@@ -18,7 +18,7 @@ public class ReservationEventConsumer {
         this.eventHandler = eventHandler;
     }
 
-    @KafkaListener(topics = "${invoice-service.topic}", groupId = "${invoice-service.groupId}")
+    @KafkaListener(topics = "${invoice-service.topic}", groupId = "${invoice-service.groupId}", containerFactory = "containerFactory")
     public void consume(ReservationEvent event, Acknowledgment ack){
         logger.info("Event with id '{}' received", event.getEventId());
 

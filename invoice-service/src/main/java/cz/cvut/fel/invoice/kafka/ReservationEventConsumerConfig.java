@@ -9,6 +9,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.HashMap;
@@ -49,7 +50,21 @@ public class ReservationEventConsumerConfig {
                 JsonDeserializer.TRUSTED_PACKAGES,
                 "*"
         );
-        return new DefaultKafkaConsumerFactory<>(props);
+
+        DefaultKafkaConsumerFactory<String, ReservationEvent> factory = new DefaultKafkaConsumerFactory<>(props);
+
+        return factory;
+    }
+
+    @Bean
+    ConcurrentKafkaListenerContainerFactory<String, ReservationEvent> containerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ReservationEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        factory.getContainerProperties().setAckMode(
+                ContainerProperties.AckMode.MANUAL
+        );
+
+        return factory;
     }
 
     @Bean

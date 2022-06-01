@@ -22,7 +22,6 @@
         <module>invoice-service</module>
         <module>user-service</module>
         <module>APIGW</module>
-        <module>kafka-test</module>
         <module>room-reservation-api-messaging</module>
     </modules>
 

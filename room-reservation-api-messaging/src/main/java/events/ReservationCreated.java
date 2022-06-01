@@ -1,14 +1,20 @@
 package events;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class ReservationCreated extends ReservationEvent {
 
     @Getter
-    private final Integer userId;
+    @Setter
+    public Integer userId;
 
     @Getter
-    private final Integer totalPrice;
+    @Setter
+    public Integer totalPrice;
+
+    public ReservationCreated() {
+    }
 
     public ReservationCreated(Integer reservationId, Integer userId, Integer totalPrice) {
         super(reservationId);
