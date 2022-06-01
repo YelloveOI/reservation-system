@@ -3,12 +3,13 @@ package cz.cvut.fel.meetingRoomService.controller;
 import cz.cvut.fel.meetingRoomService.controller.interfaces.RoomServiceController;
 import cz.cvut.fel.meetingRoomService.domain.Room;
 import cz.cvut.fel.meetingRoomService.domain.Reservation;
-import cz.cvut.fel.meetingRoomService.service.Producer;
+import cz.cvut.fel.meetingRoomService.service.KafkaProducerService;
 import cz.cvut.fel.meetingRoomService.service.interfaces.ReservationService;
 import cz.cvut.fel.meetingRoomService.service.interfaces.RoomService;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import roomreservation.events.CreateReservationEvent;
 
 import java.sql.Date;
 import java.util.Set;
@@ -21,18 +22,17 @@ public class RoomServiceControllerImpl implements RoomServiceController {
 
     private final RoomService roomService;
 
-    private final Producer producer;
+    private final KafkaProducerService kafkaProducerService;
 
-    public RoomServiceControllerImpl(ReservationService reservationService, RoomService roomService, Producer producer) {
+    public RoomServiceControllerImpl(ReservationService reservationService, RoomService roomService, KafkaProducerService kafkaProducerService) {
         this.reservationService = reservationService;
         this.roomService = roomService;
-        this.producer = producer;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     @Override
     @GetMapping(value = "")
     public ResponseEntity<String> entryPoint() {
-//        producer.sendMessage();
         return new ResponseEntity<>("RoomReservationService REST v1", HttpStatusCode.valueOf(200));
     }
 
@@ -102,6 +102,14 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     @PostMapping(value = "reservations/")
     public ResponseEntity<Void> createReservation(@RequestBody Reservation reservation) {
         reservationService.createReservation(reservation);
+
+        CreateReservationEvent event = new CreateReservationEvent(
+                reservation.getUserId(),
+                reservation.getId(),
+                reservation.getTotalPrice()
+        );
+
+        kafkaProducerService.sendMessage(event);
 
         return ResponseEntity.ok(null);
     }
