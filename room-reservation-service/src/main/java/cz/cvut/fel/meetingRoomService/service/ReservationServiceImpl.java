@@ -2,11 +2,13 @@ package cz.cvut.fel.meetingRoomService.service;
 
 import com.sun.istack.NotNull;
 import cz.cvut.fel.meetingRoomService.domain.Reservation;
-import cz.cvut.fel.meetingRoomService.domain.Room;
 import cz.cvut.fel.meetingRoomService.enums.ReservationStatus;
+import cz.cvut.fel.meetingRoomService.kafka.interfaces.ReservationEventPublisher;
 import cz.cvut.fel.meetingRoomService.repository.interfaces.ReservationRepository;
 import cz.cvut.fel.meetingRoomService.service.interfaces.ReservationService;
-import cz.cvut.fel.meetingRoomService.service.interfaces.RoomService;
+import cz.cvut.fel.meetingRoomService.kafka.TransactionalReservationEventPublisher;
+import events.ReservationCancelled;
+import events.ReservationCreated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,38 +26,61 @@ public class ReservationServiceImpl implements ReservationService {
 
     private final ReservationRepository repo;
 
-    public ReservationServiceImpl(ReservationRepository repo) {
+    private final ReservationEventPublisher publisher;
+
+    public ReservationServiceImpl(ReservationRepository repo, ReservationEventPublisher publisher) {
         this.repo = repo;
+        this.publisher = publisher;
     }
 
     @Override
     public void cancelReservation(Integer reservationId) {
-        // TODO
+        Optional<Reservation> reservation = repo.findById(reservationId);
+
+        if(reservation.isEmpty()) throw new IllegalArgumentException(String.format("Reservation with id %s doesn't exist", reservationId));
+
+        reservation.get().setStatus(ReservationStatus.CANCELLED);
+
+        repo.save(reservation.get());
+        publisher.send(new ReservationCancelled(reservationId));
+
+        logger.info(String.format("Reservation with id %s cancelled", reservationId));
+    }
+
+    @Override
+    public void cancelAllActiveRoomReservations(Integer roomId) {
+        Set<Reservation> reservations = getActiveRoomReservations(roomId);
+
+        for(Reservation r : reservations) {
+            cancelReservation(r.getId());
+        }
+
+        logger.info(String.format("All reservation for room with id %s cancelled", roomId));
     }
 
     @Override
     public void createReservation(Reservation reservation) {
-        if(roomAvailable(reservation.getRoom().getId(), reservation.getDate())) {
-            repo.save(reservation);
-            infoLog(Reservation.class, reservation.getId(), "CREATED");
-        } else {
-            warnLog(Reservation.class, reservation.getId(), "ROOM " + reservation.getRoom() + " IS UNAVAILABLE");
-        }
+        if(
+                !roomAvailable(reservation.getRoom().getId(), reservation.getDate())
+        ) throw new IllegalArgumentException(String.format("Can't make reservation for room with id %s", reservation.getRoom().getId()));
+
+        repo.save(reservation);
+
+        publisher.send(new ReservationCreated(reservation.getId(), reservation.getUserId(), reservation.getTotalPrice()));
+
+        logger.info(String.format("Reservation for room with id %s created", reservation.getRoom().getId()));
     }
 
     @Override
     public void updateReservationStatus(@NotNull Integer reservationId, @NotNull ReservationStatus status) {
         Optional<Reservation> reservation = repo.findById(reservationId);
 
-        if(reservation.isEmpty()) {
-            warnLog(Reservation.class, reservationId, "DOESN'T EXIST");
-            return;
-        }
+        if(reservation.isEmpty()) throw new IllegalArgumentException(String.format("Reservation with id %s doesn't exist", reservationId));
 
         reservation.get().setStatus(status);
         repo.save(reservation.get());
 
-        infoLog(Reservation.class, reservationId, "STATUS UPDATED ON" + status.toString());
+        logger.info(String.format("Status changed for reservation with id %s on %s", reservationId, status));
     }
 
     @Override
@@ -93,34 +118,6 @@ public class ReservationServiceImpl implements ReservationService {
                 .reduce(0, Integer::sum);
 
         return totalReservationsLength < 24;
-    }
-
-    private void infoLog(Class entityClass, Integer id, String action) {
-        StringBuilder sb = new StringBuilder();
-
-        sb
-                .append("Entity ")
-                .append(entityClass.toString())
-                .append(" with ID ")
-                .append(id)
-                .append(" ")
-                .append(action);
-
-        logger.info(sb.toString());
-    }
-
-    private void warnLog(Class entityClass, Integer id, String issue) {
-        StringBuilder sb = new StringBuilder();
-
-        sb
-                .append("Entity ")
-                .append(entityClass.toString())
-                .append(" with ID ")
-                .append(id)
-                .append(" ")
-                .append(issue);
-
-        logger.warn(sb.toString());
     }
 
 }

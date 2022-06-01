@@ -25,4 +25,6 @@ public interface ReservationService {
 
     boolean roomAvailable(Integer roomId, Date onDate);
 
+    void cancelAllActiveRoomReservations(Integer roomId);
+
 }

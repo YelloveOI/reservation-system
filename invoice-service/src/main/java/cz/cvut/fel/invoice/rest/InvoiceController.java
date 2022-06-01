@@ -2,7 +2,7 @@ package cz.cvut.fel.invoice.rest;
 
 import cz.cvut.fel.invoice.model.Invoice;
 import cz.cvut.fel.invoice.rest.util.RestUtils;
-import cz.cvut.fel.invoice.service.InvoiceService;
+import cz.cvut.fel.invoice.service.interfaces.InvoiceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

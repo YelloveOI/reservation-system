@@ -1,4 +1,4 @@
-package cz.cvut.fel.invoice.service;
+package cz.cvut.fel.invoice.service.interfaces;
 
 import cz.cvut.fel.invoice.model.Invoice;
 
@@ -19,4 +19,6 @@ public interface InvoiceService {
     void deleteById(Integer id);
 
     void payInvoice(Integer ownerId, Integer id) throws Exception;
+
+    void cancelInvoiceToReservation(Integer reservationId);
 }

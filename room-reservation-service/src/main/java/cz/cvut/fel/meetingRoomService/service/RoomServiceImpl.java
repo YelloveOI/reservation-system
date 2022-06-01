@@ -1,7 +1,6 @@
 package cz.cvut.fel.meetingRoomService.service;
 
 import com.sun.istack.NotNull;
-import cz.cvut.fel.meetingRoomService.domain.Reservation;
 import cz.cvut.fel.meetingRoomService.domain.Room;
 import cz.cvut.fel.meetingRoomService.repository.interfaces.RoomRepository;
 import cz.cvut.fel.meetingRoomService.service.interfaces.ReservationService;
@@ -33,40 +32,42 @@ public class RoomServiceImpl implements RoomService {
     public void blockRoom(@NotNull Integer roomId) {
         Optional<Room> room = repo.findByIdAndDeletedIsFalse(roomId);
 
-        if(room.isEmpty()) {
-            warnLog(Room.class, roomId, "DOESN'T EXIST");
-            return;
-        }
+        if(room.isEmpty()) throw new IllegalArgumentException(String.format("Room with id %s not found", roomId));
 
         room.get().setActive(false);
+
+        reservationService.cancelAllActiveRoomReservations(roomId);
+
         repo.save(room.get());
 
-        infoLog(Room.class, roomId, "BLOCKED");
+        logger.info(String.format("Room with id %s blocked"), roomId);
     }
 
     @Override
     public void saveRoom(@NotNull Room room) {
         repo.save(room);
-        infoLog(Room.class, room.getId(), "SAVED");
     }
 
     @Override
     public void deleteRoom(@NotNull Integer roomId) {
         Optional<Room> room = repo.findByIdAndDeletedIsFalse(roomId);
 
-        if(room.isEmpty()) {
-            warnLog(Room.class, roomId, "DOESN'T EXIST");
-            return;
-        }
+        if(room.isEmpty()) throw new IllegalArgumentException(String.format("Room with id %s not found", roomId));
 
         room.get().setDeleted(true);
+
+        reservationService.cancelAllActiveRoomReservations(roomId);
+
         repo.save(room.get());
 
-        infoLog(Room.class, roomId, "DELETED");
+        logger.info(String.format("Room with id %s deleted"), roomId);
+
     }
 
     @Override
     public Set<Room> getRoomsByParams(@NotNull String city, @NotNull int capacity, @NotNull boolean isActive) {
+        if(capacity < 1) throw new IllegalArgumentException("Capacity must be higher than 0");
+
         return repo.findAllByCityAndCapacityAndActiveAndDeletedIsFalse(city, capacity, isActive);
     }
 
@@ -81,34 +82,5 @@ public class RoomServiceImpl implements RoomService {
 
         return result;
     }
-
-    private void infoLog(Class entityClass, Integer id, String action) {
-        StringBuilder sb = new StringBuilder();
-
-        sb
-                .append("Entity ")
-                .append(entityClass.toString())
-                .append(" with ID ")
-                .append(id)
-                .append(" ")
-                .append(action);
-
-        logger.info(sb.toString());
-    }
-
-    private void warnLog(Class entityClass, Integer id, String issue) {
-        StringBuilder sb = new StringBuilder();
-
-        sb
-                .append("Entity ")
-                .append(entityClass.toString())
-                .append(" with ID ")
-                .append(id)
-                .append(" ")
-                .append(issue);
-
-        logger.warn(sb.toString());
-    }
-
 
 }

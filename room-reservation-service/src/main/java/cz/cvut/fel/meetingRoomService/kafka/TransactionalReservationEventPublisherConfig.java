@@ -1,5 +1,6 @@
-package cz.cvut.fel.meetingRoomService.config;
+package cz.cvut.fel.meetingRoomService.kafka;
 
+import events.ReservationEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -8,15 +9,14 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import roomreservation.events.CreateReservationEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class KafkaProducerConfig {
+public class TransactionalReservationEventPublisherConfig {
     @Bean
-    public ProducerFactory<String, CreateReservationEvent> producerFactory() {
+    public ProducerFactory<String, ReservationEvent> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -27,11 +27,19 @@ public class KafkaProducerConfig {
         configProps.put(
                 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
                 JsonSerializer.class);
-        return new DefaultKafkaProducerFactory<>(configProps);
+        configProps.put(
+                ProducerConfig.TRANSACTIONAL_ID_CONFIG, "getting-things-done"
+        );
+
+        final DefaultKafkaProducerFactory<String, ReservationEvent> factory =
+                new DefaultKafkaProducerFactory<>(configProps);
+        factory.setTransactionIdPrefix("getting-things-done");
+
+        return factory;
     }
 
     @Bean
-    public KafkaTemplate<String, CreateReservationEvent> kafkaTemplate() {
+    public KafkaTemplate<String, ReservationEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

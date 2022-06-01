@@ -3,6 +3,7 @@ package cz.cvut.fel.invoice.service;
 import cz.cvut.fel.invoice.exception.NotFoundException;
 import cz.cvut.fel.invoice.model.Invoice;
 import cz.cvut.fel.invoice.repository.InvoiceRepository;
+import cz.cvut.fel.invoice.service.interfaces.InvoiceService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,13 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     public InvoiceServiceImpl(InvoiceRepository repo) {
         this.repo = repo;
+    }
+
+
+    @Override
+    public void cancelInvoiceToReservation(Integer reservationId) {
+        // TODO prosim (:
+        // cca proste prida Invoicu status CANCELLED
     }
 
     @Override

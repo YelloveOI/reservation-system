@@ -3,13 +3,13 @@ package cz.cvut.fel.meetingRoomService.controller;
 import cz.cvut.fel.meetingRoomService.controller.interfaces.RoomServiceController;
 import cz.cvut.fel.meetingRoomService.domain.Room;
 import cz.cvut.fel.meetingRoomService.domain.Reservation;
-import cz.cvut.fel.meetingRoomService.service.KafkaProducerService;
+import cz.cvut.fel.meetingRoomService.kafka.TransactionalReservationEventPublisher;
 import cz.cvut.fel.meetingRoomService.service.interfaces.ReservationService;
 import cz.cvut.fel.meetingRoomService.service.interfaces.RoomService;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import roomreservation.events.CreateReservationEvent;
+import events.ReservationCreated;
 
 import java.sql.Date;
 import java.util.Set;
@@ -22,12 +22,12 @@ public class RoomServiceControllerImpl implements RoomServiceController {
 
     private final RoomService roomService;
 
-    private final KafkaProducerService kafkaProducerService;
+    private final TransactionalReservationEventPublisher transactionalReservationEventPublisher;
 
-    public RoomServiceControllerImpl(ReservationService reservationService, RoomService roomService, KafkaProducerService kafkaProducerService) {
+    public RoomServiceControllerImpl(ReservationService reservationService, RoomService roomService, TransactionalReservationEventPublisher transactionalReservationEventPublisher) {
         this.reservationService = reservationService;
         this.roomService = roomService;
-        this.kafkaProducerService = kafkaProducerService;
+        this.transactionalReservationEventPublisher = transactionalReservationEventPublisher;
     }
 
     @Override
@@ -103,13 +103,13 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     public ResponseEntity<Void> createReservation(@RequestBody Reservation reservation) {
         reservationService.createReservation(reservation);
 
-        CreateReservationEvent event = new CreateReservationEvent(
+        ReservationCreated event = new ReservationCreated(
                 reservation.getUserId(),
                 reservation.getId(),
                 reservation.getTotalPrice()
         );
 
-        kafkaProducerService.sendMessage(event);
+        transactionalReservationEventPublisher.send(event);
 
         return ResponseEntity.ok(null);
     }
