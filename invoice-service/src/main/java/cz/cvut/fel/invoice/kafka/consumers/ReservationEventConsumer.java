@@ -1,6 +1,8 @@
 package cz.cvut.fel.invoice.kafka.consumers;
 
+import cz.cvut.fel.invoice.kafka.publishers.TransactionalInvoiceEventPublisher;
 import cz.cvut.fel.invoice.service.interfaces.EventHandler;
+import events.InvoiceCreationFailed;
 import events.ReservationEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +28,9 @@ public class ReservationEventConsumer {
             eventHandler
                     .onEvent(event)
                     .thenRun(ack::acknowledge);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logger.warn("Unable to apply event {} to the latest state of aggregate with ID {}.", event, event.getReservationId(), e);
-            // TODO blowback
         }
 
     }

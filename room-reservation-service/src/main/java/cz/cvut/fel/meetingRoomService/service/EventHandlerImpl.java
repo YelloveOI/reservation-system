@@ -25,6 +25,8 @@ public class EventHandlerImpl implements EventHandler {
                         ((InvoicePayed) event).getReservationId(),
                         ReservationStatus.PAID
                 );
+            } else if(event instanceof InvoiceCreationFailed) {
+                reservationService.deleteReservation(((InvoiceCreationFailed) event).getReservationId());
             }
         });
     }

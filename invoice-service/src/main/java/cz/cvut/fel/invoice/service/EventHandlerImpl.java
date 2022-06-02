@@ -1,8 +1,9 @@
 package cz.cvut.fel.invoice.service;
 
-import cz.cvut.fel.invoice.kafka.consumers.ReservationEventConsumer;
+import cz.cvut.fel.invoice.kafka.publishers.interfaces.InvoiceEventPublisher;
 import cz.cvut.fel.invoice.service.interfaces.EventHandler;
 import cz.cvut.fel.invoice.service.interfaces.InvoiceService;
+import events.InvoiceCreationFailed;
 import events.ReservationCancelled;
 import events.ReservationCreated;
 import events.ReservationEvent;
@@ -19,8 +20,11 @@ public class EventHandlerImpl implements EventHandler {
 
     private final Logger logger = LoggerFactory.getLogger(EventHandlerImpl.class);
 
-    public EventHandlerImpl(InvoiceService service) {
+    private final InvoiceEventPublisher publisher;
+
+    public EventHandlerImpl(InvoiceService service, InvoiceEventPublisher publisher) {
         this.service = service;
+        this.publisher = publisher;
     }
 
     @Override
@@ -29,7 +33,12 @@ public class EventHandlerImpl implements EventHandler {
             if(event instanceof ReservationCancelled) {
                 service.deleteAllByReservationId(event.getReservationId());
             } else if (event instanceof ReservationCreated) {
-                service.save(((ReservationCreated) event).getUserId(), event.getReservationId(), ((ReservationCreated) event).getTotalPrice());
+                try {
+                    service.save(((ReservationCreated) event).getUserId(), event.getReservationId(), ((ReservationCreated) event).getTotalPrice());
+                } catch (IllegalArgumentException e) {
+                    logger.warn("Illegal argument exception during processing event '{}'", event);
+                    publisher.send(new InvoiceCreationFailed(event.getReservationId()));
+                }
             }
         });
     }

@@ -19,4 +19,6 @@ public interface ReservationRepository extends CrudRepository<Reservation, Integ
 
     Set<Reservation> findAllByRoomIdAndStatus(Integer roomId, ReservationStatus status);
 
+    void deleteById(Integer id);
+
 }

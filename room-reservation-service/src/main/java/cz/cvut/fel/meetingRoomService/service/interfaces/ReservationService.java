@@ -27,4 +27,6 @@ public interface ReservationService {
 
     void cancelAllActiveRoomReservations(Integer roomId);
 
+    void deleteReservation(Integer reservationId);
+
 }

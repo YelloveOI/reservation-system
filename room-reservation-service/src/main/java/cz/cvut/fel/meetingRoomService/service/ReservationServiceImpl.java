@@ -119,4 +119,10 @@ public class ReservationServiceImpl implements ReservationService {
         return totalReservationsLength < 24;
     }
 
+    @Override
+    public void deleteReservation(Integer reservationId) {
+        repo.deleteById(reservationId);
+
+        logger.info("Reservation with id '{}' deleted", reservationId);
+    }
 }

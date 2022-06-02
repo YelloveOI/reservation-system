@@ -2,6 +2,7 @@ package cz.cvut.fel.invoice.service;
 
 import cz.cvut.fel.invoice.exception.NotFoundException;
 import cz.cvut.fel.invoice.kafka.publishers.TransactionalInvoiceEventPublisher;
+import cz.cvut.fel.invoice.kafka.publishers.interfaces.InvoiceEventPublisher;
 import cz.cvut.fel.invoice.model.Invoice;
 import cz.cvut.fel.invoice.repository.InvoiceRepository;
 import cz.cvut.fel.invoice.service.interfaces.InvoiceService;
@@ -22,12 +23,12 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     private final InvoiceRepository repo;
 
-    private final TransactionalInvoiceEventPublisher publisher;
+    private final InvoiceEventPublisher publisher;
 
     private final Logger logger = LoggerFactory.getLogger(EventHandlerImpl.class);
 
     @Autowired
-    public InvoiceServiceImpl(InvoiceRepository repo, TransactionalInvoiceEventPublisher publisher) {
+    public InvoiceServiceImpl(InvoiceRepository repo, InvoiceEventPublisher publisher) {
         this.repo = repo;
         this.publisher = publisher;
     }
@@ -53,8 +54,10 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public Invoice save(@NotNull Integer ownerId, @NotNull Integer reservationId, @NotNull Integer price) {
+    public Invoice save(@NotNull Integer ownerId, @NotNull Integer reservationId, @NotNull Integer price) throws IllegalArgumentException {
         logger.info("Creating new Invoice");
+
+        if(price < 0) throw new IllegalArgumentException();
 
         return repo.save(new Invoice(ownerId, reservationId, price));
     }
