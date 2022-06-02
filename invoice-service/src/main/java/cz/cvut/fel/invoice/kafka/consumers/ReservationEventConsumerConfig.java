@@ -1,4 +1,4 @@
-package cz.cvut.fel.invoice.kafka;
+package cz.cvut.fel.invoice.kafka.consumers;
 
 import events.ReservationEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;

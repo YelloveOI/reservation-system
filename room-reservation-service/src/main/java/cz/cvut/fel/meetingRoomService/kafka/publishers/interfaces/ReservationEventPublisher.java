@@ -1,4 +1,4 @@
-package cz.cvut.fel.meetingRoomService.kafka.interfaces;
+package cz.cvut.fel.meetingRoomService.kafka.publishers.interfaces;
 
 import events.ReservationEvent;
 

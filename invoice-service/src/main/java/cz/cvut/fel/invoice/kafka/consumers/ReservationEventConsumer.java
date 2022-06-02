@@ -1,4 +1,4 @@
-package cz.cvut.fel.invoice.kafka;
+package cz.cvut.fel.invoice.kafka.consumers;
 
 import cz.cvut.fel.invoice.service.interfaces.EventHandler;
 import events.ReservationEvent;
@@ -18,9 +18,9 @@ public class ReservationEventConsumer {
         this.eventHandler = eventHandler;
     }
 
-    @KafkaListener(topics = "${invoice-service.topic}", groupId = "${invoice-service.groupId}", containerFactory = "containerFactory")
+    @KafkaListener(topics = "${invoice-service.reservation-event-topic}", groupId = "${invoice-service.groupId}", containerFactory = "containerFactory")
     public void consume(ReservationEvent event, Acknowledgment ack){
-        logger.info("Event with id '{}' received", event.getEventId());
+        logger.info("ReservationEvent with id '{}' received", event.getEventId());
 
         try {
             eventHandler

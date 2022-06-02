@@ -20,5 +20,5 @@ public interface InvoiceService {
 
     void payInvoice(Integer ownerId, Integer id) throws Exception;
 
-    void cancelInvoiceToReservation(Integer reservationId);
+    void deleteAllByReservationId(Integer reservationId);
 }

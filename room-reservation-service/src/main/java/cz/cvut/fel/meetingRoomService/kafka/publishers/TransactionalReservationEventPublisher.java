@@ -1,6 +1,6 @@
-package cz.cvut.fel.meetingRoomService.kafka;
+package cz.cvut.fel.meetingRoomService.kafka.publishers;
 
-import cz.cvut.fel.meetingRoomService.kafka.interfaces.ReservationEventPublisher;
+import cz.cvut.fel.meetingRoomService.kafka.publishers.interfaces.ReservationEventPublisher;
 import events.ReservationEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ public class TransactionalReservationEventPublisher implements ReservationEventP
     private final KafkaTemplate<String, ReservationEvent> kafkaTemplate;
 
     public TransactionalReservationEventPublisher(
-            @Value("${room-reservation.topic}") String topicName,
+            @Value("${room-reservation.reservation-event-topic}") String topicName,
             KafkaTemplate<String, ReservationEvent> kafkaTemplate
     ) {
         this.kafkaTemplate = kafkaTemplate;
@@ -26,7 +26,7 @@ public class TransactionalReservationEventPublisher implements ReservationEventP
     @Override
     public void send(ReservationEvent event) {
         logger.info("Attempting to send {} to topic {}", event, topicName);
-        Integer key = event.getReservationId();
+        String key = event.getEventId();
         kafkaTemplate.executeInTransaction(operations -> {
             operations
                     .send(topicName, String.valueOf(key), event)

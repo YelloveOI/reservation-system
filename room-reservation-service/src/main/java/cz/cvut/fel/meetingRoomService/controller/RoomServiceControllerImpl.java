@@ -3,8 +3,6 @@ package cz.cvut.fel.meetingRoomService.controller;
 import cz.cvut.fel.meetingRoomService.controller.interfaces.RoomServiceController;
 import cz.cvut.fel.meetingRoomService.domain.Room;
 import cz.cvut.fel.meetingRoomService.domain.Reservation;
-import cz.cvut.fel.meetingRoomService.kafka.TransactionalReservationEventPublisher;
-import cz.cvut.fel.meetingRoomService.service.ReservationServiceImpl;
 import cz.cvut.fel.meetingRoomService.service.interfaces.ReservationService;
 import cz.cvut.fel.meetingRoomService.service.interfaces.RoomService;
 import org.slf4j.Logger;

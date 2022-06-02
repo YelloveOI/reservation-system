@@ -23,6 +23,7 @@
         <module>user-service</module>
         <module>APIGW</module>
         <module>room-reservation-api-messaging</module>
+        <module>invoice-api-messaging</module>
     </modules>
 
     <properties>

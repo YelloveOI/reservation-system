@@ -14,5 +14,8 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Integer> {
     List<Invoice> findAllByOwnerIdAndRemovedIsFalse(Integer id);
 
     List<Invoice> findAllByOwnerId(Integer id);
+
+    List<Invoice> findAllByReservationId(Integer reservationId);
+
 }
 

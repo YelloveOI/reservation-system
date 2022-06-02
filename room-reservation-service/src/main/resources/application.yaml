@@ -15,5 +15,6 @@ spring:
     password: 82Ohisas
 
 room-reservation:
-  topic: reservation-system-topic
+  invoice-event-topic: invoice-event-topic
+  reservation-event-topic: reservation-event-topic
   groupId: reservation-system-events

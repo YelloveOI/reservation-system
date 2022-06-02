@@ -1,5 +1,7 @@
-package cz.cvut.fel.meetingRoomService.kafka;
+package cz.cvut.fel.invoice.kafka.publishers;
 
+import cz.cvut.fel.invoice.model.Invoice;
+import events.InvoiceEvent;
 import events.ReservationEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -14,9 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class TransactionalReservationEventPublisherConfig {
+public class TransactionalInvoiceEventPublisherConfig {
+
     @Bean
-    public ProducerFactory<String, ReservationEvent> producerFactory() {
+    public ProducerFactory<String, InvoiceEvent> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -31,7 +34,7 @@ public class TransactionalReservationEventPublisherConfig {
                 JsonSerializer.class
         );
         configProps.put(
-                ProducerConfig.TRANSACTIONAL_ID_CONFIG, "reservation-event-publisher"
+                ProducerConfig.TRANSACTIONAL_ID_CONFIG, "invoice-event-publisher"
         );
         configProps.put(
                 ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG,
@@ -51,15 +54,16 @@ public class TransactionalReservationEventPublisherConfig {
         );
 
 
-        final DefaultKafkaProducerFactory<String, ReservationEvent> factory =
+        final DefaultKafkaProducerFactory<String, InvoiceEvent> factory =
                 new DefaultKafkaProducerFactory<>(configProps);
-        factory.setTransactionIdPrefix("reservation-event-publisher");
+        factory.setTransactionIdPrefix("invoice-event-publisher");
 
         return factory;
     }
 
     @Bean
-    public KafkaTemplate<String, ReservationEvent> kafkaTemplate() {
+    public KafkaTemplate<String, InvoiceEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
+
 }

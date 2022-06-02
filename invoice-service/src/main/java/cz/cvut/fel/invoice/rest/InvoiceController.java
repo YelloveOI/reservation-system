@@ -1,5 +1,6 @@
 package cz.cvut.fel.invoice.rest;
 
+import cz.cvut.fel.invoice.dto.PayInvoiceDto;
 import cz.cvut.fel.invoice.model.Invoice;
 import cz.cvut.fel.invoice.rest.util.RestUtils;
 import cz.cvut.fel.invoice.service.interfaces.InvoiceService;
@@ -86,20 +87,20 @@ public class InvoiceController {
 
     /**
      * Paying for given invoice.
-     * @param id ID of given invoice.
+     * @param payInvoiceDto
      * @return Ok/Bad request
      */
     //@PreAuthorize("hasAnyRole('ROLE_USER')")
     @PostMapping(value = "/payment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> payForInvoice(@RequestBody int ownerId, @RequestBody int id) {
+    public ResponseEntity<?> payForInvoice(@RequestBody PayInvoiceDto payInvoiceDto) {
         try {
-            invoiceService.payInvoice(ownerId, id);
+            invoiceService.payInvoice(payInvoiceDto.getOwnerId(), payInvoiceDto.getInvoiceId());
         } catch (Exception e) {
             LOG.warn("Invoice could not be paid for! {}", e.getMessage());
             return ResponseEntity.badRequest().body("WRONG");
         }
-        LOG.debug("Invoice ID \"{}\" was paid for.", id);
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", id);
+        LOG.debug("Invoice ID \"{}\" was paid for.", payInvoiceDto.getInvoiceId());
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", payInvoiceDto.getInvoiceId());
         return ResponseEntity.ok().headers(headers).body("OK");
     }
 
