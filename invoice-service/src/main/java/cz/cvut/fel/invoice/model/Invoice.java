@@ -1,9 +1,9 @@
 package cz.cvut.fel.invoice.model;
 
-import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Period;

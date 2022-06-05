@@ -1,8 +1,18 @@
+server:
+  port: 9000
 spring:
   cloud:
     gateway:
       routes:
-        - id: meeting-room-service
-          uri: http://localhost:9001/
+        - id: room-reservation-service
+          uri: http://localhost:9001
           predicates:
-            - Path=/rest/**
+            - Path=/room-reservation-service/**
+        - id: invoice-service
+          uri: http://localhost:9002
+          predicates:
+            - Path=/invoice-service/**
+        - id: user-service
+          uri: http://localhost:9003
+          predicates:
+            - Path=/user-service/**

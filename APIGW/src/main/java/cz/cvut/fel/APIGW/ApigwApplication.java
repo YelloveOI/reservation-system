@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-@EnableWebFluxSecurity
 public class ApigwApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(ApigwApplication.class, args);
 	}

@@ -1,9 +1,9 @@
 package cz.cvut.fel.meetingRoomService.domain;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
 import java.util.List;
 
 @Entity
@@ -37,4 +37,16 @@ public class Room extends AbstractEntity {
     @Setter
     private boolean deleted;
 
+    @Override
+    public String toString() {
+        return "Room{" +
+                "capacity=" + capacity +
+                ", city='" + city + '\'' +
+                ", floorNumber=" + floorNumber +
+                ", active=" + active +
+                ", name='" + name + '\'' +
+                ", pricePerHour=" + pricePerHour +
+                ", deleted=" + deleted +
+                '}';
+    }
 }

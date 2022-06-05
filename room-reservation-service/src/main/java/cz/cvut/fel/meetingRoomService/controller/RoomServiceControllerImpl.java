@@ -7,7 +7,7 @@ import cz.cvut.fel.meetingRoomService.service.interfaces.ReservationService;
 import cz.cvut.fel.meetingRoomService.service.interfaces.RoomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import events.ReservationCreated;
@@ -16,7 +16,7 @@ import java.sql.Date;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value = "/rest/v1")
+@RequestMapping(value = "/room-reservation-service")
 public class RoomServiceControllerImpl implements RoomServiceController {
 
     private final ReservationService reservationService;
@@ -33,7 +33,7 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     public ResponseEntity<String> entryPoint() {
         logger.info("GET / request");
 
-        return new ResponseEntity<>("RoomReservationService REST v1", HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>("RoomReservationService REST v1", HttpStatus.valueOf(200));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     @Override
     @PostMapping(value = "rooms/")
     public ResponseEntity<Void> createRoom(@RequestBody Room room) {
-        logger.info("POST rooms/ request");
+        logger.info("POST rooms/ request with body '{}'", room.toString());
 
         roomService.saveRoom(room);
 

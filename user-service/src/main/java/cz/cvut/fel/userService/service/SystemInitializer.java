@@ -2,13 +2,15 @@ package cz.cvut.fel.userService.service;
 
 import cz.cvut.fel.userService.model.Role;
 import cz.cvut.fel.userService.model.User;
-import jakarta.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import javax.annotation.PostConstruct;
 
 @Component
 public class SystemInitializer {
