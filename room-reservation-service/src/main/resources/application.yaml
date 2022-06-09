@@ -10,9 +10,9 @@ spring:
         database-platform: org.eclipse.persistence.platform.database.PostgreSQLPlatform
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/room-reservation-service
-    username: postgres
-    password: 82Ohisas
+    url: jdbc:postgresql://ec2-34-247-172-149.eu-west-1.compute.amazonaws.com:5432/ddh6sbqbt1o82
+    username: rloywzlbcxscif
+    password: aaa33298b33622515f3161ee492bce3ddd0f167646102621594a190d91a93bda
 
 room-reservation:
   invoice-event-topic: invoice-event-topic
