@@ -28,6 +28,13 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
+    @GetMapping("")
+    public ResponseEntity<String> entryPoint() {
+        LOG.info("GET / request");
+
+        return new ResponseEntity<>("InvoiceService REST v1", HttpStatus.valueOf(200));
+    }
+
     /**
      * Returns given invoice if authored to do so.
      * @param id ID of invoice
