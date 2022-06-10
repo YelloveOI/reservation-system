@@ -1,7 +1,10 @@
 package cz.cvut.fel.APIGW;
 
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ser.std.MapSerializer;
 import cz.cvut.fel.APIGW.dto.ApiKey;
 import cz.cvut.fel.APIGW.util.AppConstants;
+import cz.cvut.fel.APIGW.util.MapperUtils;
 import io.lettuce.core.api.StatefulRedisConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +15,9 @@ import org.springframework.context.annotation.Bean;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,20 +34,18 @@ public class ApigwApplication {
 
 	@PostConstruct
 	public void initKeysToRedis() {
+		Map<String, String> map = new HashMap<>();
+
+		map.put("343C-ED0B-4137-B27E", AppConstants.ROOM_RESERVATION_KEY);
+		map.put("FA48-EF0C-427E-8CCF", AppConstants.INVOICE_KEY);
+		map.put("CC48-EDSC-432E-8JSF", AppConstants.USER_KEY);
+
 		List<ApiKey> apiKeys = new ArrayList<>();
-
-		apiKeys.add(new ApiKey("343C-ED0B-4137-B27E", Stream.of(AppConstants.ROOM_RESERVATION_KEY,
-				AppConstants.INVOICE_KEY).collect(Collectors.toList())));
-
-		apiKeys.add(new ApiKey("FA48-EF0C-427E-8CCF", Stream.of(AppConstants.ROOM_RESERVATION_KEY)
-				.collect(Collectors.toList())));
 
 		List<String> list = connection.sync().hvals(AppConstants.RECORD_KEY);
 
-		if (list.isEmpty()) {
-			apiKeys.forEach(k -> k.getServices().forEach(s -> {
-				connection.sync().hset(AppConstants.RECORD_KEY, k.getKey(), s);
-			}));
+		if(list.isEmpty()) {
+			connection.sync().hset(AppConstants.RECORD_KEY, map);
 		}
 	}
 

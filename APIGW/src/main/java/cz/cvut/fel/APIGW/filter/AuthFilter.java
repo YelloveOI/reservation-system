@@ -11,6 +11,8 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
+import org.springframework.core.serializer.DefaultDeserializer;
+import org.springframework.core.serializer.Deserializer;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -45,14 +47,9 @@ public class AuthFilter implements GlobalFilter, Ordered {
     }
 
     private boolean isAuthorize(String routeId, String apiKey) {
-        Object apiKeyObject = connection.sync().hget(AppConstants.RECORD_KEY, apiKey);
+        String serviceKey = connection.sync().hget(AppConstants.RECORD_KEY, apiKey);
 
-        if(apiKeyObject != null) {
-            ApiKey key = MapperUtils.objectMapper(apiKeyObject, ApiKey.class);
-            return key.getServices().contains(routeId);
-        }
-
-        return false;
+        return serviceKey != null;
     }
 
     @Override

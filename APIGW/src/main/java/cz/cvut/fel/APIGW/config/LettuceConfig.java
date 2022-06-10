@@ -17,11 +17,9 @@ import java.util.Objects;
 
 @Configuration
 public class LettuceConfig {
-
-    private final String uri = "rediss://:pa762b10fc4b46a417fc1b8531afaba0f5a0a3df81d5824d27d78c6c42f044ed6@ec2-34-249-208-201.eu-west-1.compute.amazonaws.com:23540";
     @Bean
     public StatefulRedisConnection<String, String> connect() {
-        RedisURI redisURI = RedisURI.create(uri);
+        RedisURI redisURI = RedisURI.create(System.getenv("REDIS_URL"));
         redisURI.setVerifyPeer(false);
 
         RedisClient redisClient = RedisClient.create(redisURI);
