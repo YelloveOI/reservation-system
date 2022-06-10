@@ -1,9 +1,9 @@
 package cz.cvut.fel.APIGW.filter;
 
-import cz.cvut.fel.APIGW.config.RedisHashComponent;
 import cz.cvut.fel.APIGW.dto.ApiKey;
 import cz.cvut.fel.APIGW.util.AppConstants;
 import cz.cvut.fel.APIGW.util.MapperUtils;
+import io.lettuce.core.api.StatefulRedisConnection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -25,7 +25,7 @@ import java.util.List;
 public class AuthFilter implements GlobalFilter, Ordered {
 
     @Autowired
-    private RedisHashComponent redisHashComponent;
+    private StatefulRedisConnection<String, String> connection;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -45,7 +45,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
     }
 
     private boolean isAuthorize(String routeId, String apiKey) {
-        Object apiKeyObject = redisHashComponent.hGet(AppConstants.RECORD_KEY, apiKey);
+        Object apiKeyObject = connection.sync().hget(AppConstants.RECORD_KEY, apiKey);
 
         if(apiKeyObject != null) {
             ApiKey key = MapperUtils.objectMapper(apiKeyObject, ApiKey.class);

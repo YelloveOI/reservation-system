@@ -1,18 +1,14 @@
 package cz.cvut.fel.APIGW;
 
-import cz.cvut.fel.APIGW.config.RedisHashComponent;
 import cz.cvut.fel.APIGW.dto.ApiKey;
 import cz.cvut.fel.APIGW.util.AppConstants;
+import io.lettuce.core.api.StatefulRedisConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -24,7 +20,7 @@ import java.util.stream.Stream;
 public class ApigwApplication {
 
 	@Autowired
-	private RedisHashComponent redisHashComponent;
+	private StatefulRedisConnection<String, String> connection;
 
 
 	public static void main(String[] args) {
@@ -41,10 +37,12 @@ public class ApigwApplication {
 		apiKeys.add(new ApiKey("FA48-EF0C-427E-8CCF", Stream.of(AppConstants.ROOM_RESERVATION_KEY)
 				.collect(Collectors.toList())));
 
-		List<Object> list = redisHashComponent.hValues(AppConstants.RECORD_KEY);
+		List<String> list = connection.sync().hvals(AppConstants.RECORD_KEY);
 
 		if (list.isEmpty()) {
-			apiKeys.forEach(k -> redisHashComponent.hSet(AppConstants.RECORD_KEY, k.getKey(), k));
+			apiKeys.forEach(k -> k.getServices().forEach(s -> {
+				connection.sync().hset(AppConstants.RECORD_KEY, k.getKey(), s);
+			}));
 		}
 	}
 

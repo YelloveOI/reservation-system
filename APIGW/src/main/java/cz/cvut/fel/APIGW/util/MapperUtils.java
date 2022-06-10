@@ -6,10 +6,9 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class MapperUtils {
 
-    ObjectMapper  mapper = new ObjectMapper();
+    ObjectMapper mapper = new ObjectMapper();;
 
-    public <T> T objectMapper(Object object, Class<T> contentClassType) {
+    public  <T> T objectMapper(Object object,Class<T> contentClassType){
         return mapper.convertValue(object, contentClassType);
     }
-
 }
