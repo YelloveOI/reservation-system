@@ -15,15 +15,15 @@ import org.springframework.data.redis.core.RedisTemplate;
 import java.util.Objects;
 
 
-@Configuration
-public class LettuceConfig {
-    @Bean
-    public StatefulRedisConnection<String, String> connect() {
-        RedisURI redisURI = RedisURI.create(System.getenv("REDIS_URL"));
-        redisURI.setVerifyPeer(false);
-
-        RedisClient redisClient = RedisClient.create(redisURI);
-        return redisClient.connect();
-    }
-
-}
+//@Configuration
+//public class LettuceConfig {
+//    @Bean
+//    public StatefulRedisConnection<String, String> connect() {
+//        RedisURI redisURI = RedisURI.create(System.getenv("REDIS_URL"));
+//        redisURI.setVerifyPeer(false);
+//
+//        RedisClient redisClient = RedisClient.create(redisURI);
+//        return redisClient.connect();
+//    }
+//
+//}
