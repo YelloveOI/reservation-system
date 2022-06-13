@@ -5,9 +5,8 @@ spring:
     generate-ddl: true
     show-sql: false
     open-in-view: false
-    spring:
-      jpa:
-        database-platform: org.eclipse.persistence.platform.database.PostgreSQLPlatform
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/room-reservation-service
