@@ -197,6 +197,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>invoice-service</finalName>
     </build>
 
 </project>
