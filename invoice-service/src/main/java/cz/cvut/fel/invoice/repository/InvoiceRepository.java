@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface InvoiceRepository extends CrudRepository<Invoice, Integer> {
 
-    @Query("select i from Invoice i where i.ownerId = ?1 and i.isRemoved = false")
+    @Query("select i from Invoice i where i.ownerId = ?1 and i.isRemoved = false ORDER BY i.creationDate, i.creationTime")
     List<Invoice> findAllByOwnerIdAndRemovedIsFalse(Integer id);
 
     List<Invoice> findAllByOwnerId(Integer id);

@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "RRS_USER")
 public class User extends AbstractEntity {
 
     @Basic(optional = false)
