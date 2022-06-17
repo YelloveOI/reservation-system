@@ -83,4 +83,11 @@ public class RoomServiceImpl implements RoomService {
         return result;
     }
 
+    @Override
+    public String getRoomNameById(@NotNull Integer id) {
+        Optional<Room> room = repo.findById(id);
+
+        return room.map(Room::getName).orElse(null);
+    }
+
 }

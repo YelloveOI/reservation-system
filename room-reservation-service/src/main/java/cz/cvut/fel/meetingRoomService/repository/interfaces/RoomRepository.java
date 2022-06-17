@@ -1,6 +1,7 @@
 package cz.cvut.fel.meetingRoomService.repository.interfaces;
 
 import cz.cvut.fel.meetingRoomService.domain.Room;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

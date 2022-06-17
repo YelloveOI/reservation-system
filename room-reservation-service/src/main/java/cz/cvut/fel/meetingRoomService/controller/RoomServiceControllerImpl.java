@@ -37,7 +37,7 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     }
 
     @Override
-    @PatchMapping(value = "room/{id}")
+    @PatchMapping(value = "/room/{id}")
     public ResponseEntity<Void> blockRoom(@PathVariable("id") Integer roomId) {
         logger.info("PATCH room/{id} request");
 
@@ -47,7 +47,14 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     }
 
     @Override
-    @PatchMapping(value = "reservation/{id}")
+    @PatchMapping(value = "/room-name/{id}")
+    public ResponseEntity<String> getRoomNameById(@PathVariable("id") Integer roomId) {
+
+        return ResponseEntity.ok(roomService.getRoomNameById(roomId));
+    }
+
+    @Override
+    @PatchMapping(value = "/reservation/{id}")
     public ResponseEntity<Void> cancelReservation(@PathVariable("id") Integer reservationId) {
         logger.info("PATCH reservation/{id} request");
 
@@ -57,7 +64,7 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     }
 
     @Override
-    @PostMapping(value = "rooms/")
+    @PostMapping(value = "/rooms")
     public ResponseEntity<Void> createRoom(@RequestBody Room room) {
         logger.info("POST rooms/ request with body '{}'", room.toString());
 
@@ -67,7 +74,7 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     }
 
     @Override
-    @DeleteMapping(value = "room/{id}")
+    @DeleteMapping(value = "/room/{id}")
     public ResponseEntity<Void> deleteRoom(@PathVariable("id") Integer roomId) {
         logger.info("DELETE room/{id} request");
 
@@ -77,7 +84,7 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     }
 
     @Override
-    @GetMapping(value = "reservations/activeByRoomId/{id}")
+    @GetMapping(value = "/reservations/activeByRoomId/{id}")
     public ResponseEntity<Set<Reservation>> getActiveRoomReservations(@PathVariable("id") Integer roomId) {
         logger.info("GET reservations/activeByRoomId/{id} request");
 
@@ -85,7 +92,7 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     }
 
     @Override
-    @GetMapping(value = "reservations/allByRoomId/{id}")
+    @GetMapping(value = "/reservations/allByRoomId/{id}")
     public ResponseEntity<Set<Reservation>> getAllRoomReservations(@PathVariable("id") Integer roomId) {
         logger.info("GET reservations/allByRoomId/{id} request");
 
@@ -93,7 +100,7 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     }
 
     @Override
-    @GetMapping(value = "rooms/byParams/")
+    @GetMapping(value = "/rooms/byParams")
     public ResponseEntity<Set<Room>> getAvailableRoomsByParams(@RequestBody Date onDate, @RequestBody String city, @RequestBody int capacity) {
         logger.info("GET rooms/byParams/ request");
 
@@ -101,7 +108,7 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     }
 
     @Override
-    @GetMapping(value = "reservations/allByUserId/{id}")
+    @GetMapping(value = "/reservations/allByUserId/{id}")
     public ResponseEntity<Set<Reservation>> getAllUserReservations(@PathVariable("id") Integer userId) {
         logger.info("GET reservations/allByUserId/{id} request");
 
@@ -109,7 +116,7 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     }
 
     @Override
-    @GetMapping(value = "reservations/activeByUserId/{id}")
+    @GetMapping(value = "/reservations/activeByUserId/{id}")
     public ResponseEntity<Set<Reservation>> getActiveReservationsOfUser(@PathVariable("id") Integer userId) {
         logger.info("GET reservations/activeByUserId/{id} request");
 
@@ -117,7 +124,7 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     }
 
     @Override
-    @PostMapping(value = "reservations/")
+    @PostMapping(value = "/reservations")
     public ResponseEntity<Void> createReservation(@RequestBody Reservation reservation) {
         logger.info("POST reservations/ request");
 

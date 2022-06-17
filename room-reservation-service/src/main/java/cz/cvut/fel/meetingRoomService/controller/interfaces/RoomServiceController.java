@@ -31,4 +31,5 @@ public interface RoomServiceController {
 
     ResponseEntity<Void> createReservation(Reservation reservation);
 
+    ResponseEntity<String> getRoomNameById(Integer roomId);
 }

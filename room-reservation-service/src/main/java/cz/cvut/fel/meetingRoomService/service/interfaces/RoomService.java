@@ -1,5 +1,6 @@
 package cz.cvut.fel.meetingRoomService.service.interfaces;
 
+import com.sun.istack.NotNull;
 import cz.cvut.fel.meetingRoomService.domain.Reservation;
 import cz.cvut.fel.meetingRoomService.domain.Room;
 
@@ -18,5 +19,5 @@ public interface RoomService {
 
     Set<Room> getAvailableRoomsByParams(Date onDate, String city, int capacity);
 
-
+    String getRoomNameById(@NotNull Integer id);
 }

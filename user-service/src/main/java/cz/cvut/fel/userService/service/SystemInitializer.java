@@ -35,7 +35,7 @@ public class SystemInitializer {
         TransactionTemplate txTemplate = new TransactionTemplate(txManager);
         txTemplate.execute((status) -> {
             generateAdmin();
-            for (int i = 2; i < 10; i++) {
+            for (int i = 2; i < 5; i++) {
                 generateAdmin(i);
             }
             return null;
@@ -49,7 +49,7 @@ public class SystemInitializer {
         admin.setLastName("Administrator"+integer);
         admin.setPassword("$2a$12$BYycrwQl276By197onZ6OeK5q5Q12pcZNpCIDawOsQc71R7kBp4xK");
         admin.setRole(Role.ADMINISTRATOR);
-        admin.setEmail("Email"+integer+"@kbss.ear.cvut.cz");
+        admin.setEmail("Email"+integer+"@nss.cvut.cz");
         admin.setRemoved(false);
         LOG.info("Generated admin user with credentials " + admin.getUsername() + "/" + admin.getPassword());
         userService.createUser(admin);
@@ -62,7 +62,7 @@ public class SystemInitializer {
         admin.setLastName("Administrator");
         admin.setPassword("$2a$12$BYycrwQl276By197onZ6OeK5q5Q12pcZNpCIDawOsQc71R7kBp4xK");
         admin.setRole(Role.ADMINISTRATOR);
-        admin.setEmail("Email@kbss.ear.cvut.cz");
+        admin.setEmail("Email@nss.cvut.cz");
         admin.setRemoved(false);
         LOG.info("Generated admin user with credentials " + admin.getUsername() + "/" + admin.getPassword());
         userService.createUser(admin);
