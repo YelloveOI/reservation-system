@@ -5,6 +5,7 @@ import cz.cvut.fel.meetingRoomService.domain.Reservation;
 import org.springframework.http.ResponseEntity;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 public interface RoomServiceController {
@@ -32,4 +33,8 @@ public interface RoomServiceController {
     ResponseEntity<Void> createReservation(Reservation reservation);
 
     ResponseEntity<String> getRoomNameById(Integer roomId);
+
+    ResponseEntity<List<Room>> getCities();
+
+    ResponseEntity<Set<Room>> getRooms();
 }

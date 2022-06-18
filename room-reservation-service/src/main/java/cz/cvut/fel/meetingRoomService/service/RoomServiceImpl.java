@@ -90,4 +90,33 @@ public class RoomServiceImpl implements RoomService {
         return room.map(Room::getName).orElse(null);
     }
 
+    @Override
+    public List<Room> getDistinctCities() {
+        Iterable<Room> rooms = repo.findAll();
+
+        List<Room> distinctCities = new ArrayList<>();
+        Set<String> distinctCityNames = new HashSet<>();
+
+        for (Room room : rooms) {
+            if (!distinctCityNames.contains(room.getCity())) {
+                distinctCityNames.add(room.getCity());
+                distinctCities.add(room);
+            }
+        }
+
+        return distinctCities;
+    }
+
+    @Override
+    public Set<Room> findAll() {
+        Iterable<Room> rooms = repo.findAll();
+        Set<Room> result = new HashSet<>();
+
+        for (Room room : rooms) {
+            result.add(room);
+        }
+
+        return result;
+    }
+
 }

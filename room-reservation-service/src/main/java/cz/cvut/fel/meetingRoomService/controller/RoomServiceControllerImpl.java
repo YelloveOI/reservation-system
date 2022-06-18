@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import events.ReservationCreated;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -37,6 +38,12 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     }
 
     @Override
+    @GetMapping(value = "/cities")
+    public ResponseEntity<List<Room>> getCities() {
+        return ResponseEntity.ok(roomService.getDistinctCities());
+    }
+
+    @Override
     @PatchMapping(value = "/room/{id}")
     public ResponseEntity<Void> blockRoom(@PathVariable("id") Integer roomId) {
         logger.info("PATCH room/{id} request");
@@ -51,6 +58,13 @@ public class RoomServiceControllerImpl implements RoomServiceController {
     public ResponseEntity<String> getRoomNameById(@PathVariable("id") Integer roomId) {
 
         return ResponseEntity.ok(roomService.getRoomNameById(roomId));
+    }
+
+    @Override
+    @GetMapping(value = "/rooms")
+    public ResponseEntity<Set<Room>> getRooms() {
+
+        return ResponseEntity.ok(roomService.findAll());
     }
 
     @Override
