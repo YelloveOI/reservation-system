@@ -2,6 +2,7 @@ package cz.cvut.fel.meetingRoomService.controller.interfaces;
 
 import cz.cvut.fel.meetingRoomService.domain.Room;
 import cz.cvut.fel.meetingRoomService.domain.Reservation;
+import cz.cvut.fel.meetingRoomService.dto.FindRoomDto;
 import org.springframework.http.ResponseEntity;
 
 import java.sql.Date;
@@ -24,7 +25,7 @@ public interface RoomServiceController {
 
     ResponseEntity<Set<Reservation>> getAllRoomReservations(Integer roomId);
 
-    ResponseEntity<Set<Room>> getAvailableRoomsByParams(Date onDate, String city, int capacity);
+    ResponseEntity<Set<Room>> getAvailableRoomsByParams(FindRoomDto findRoomDto);
 
     ResponseEntity<Set<Reservation>> getAllUserReservations(Integer userId);
 

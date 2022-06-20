@@ -3,6 +3,7 @@ package cz.cvut.fel.meetingRoomService.controller;
 import cz.cvut.fel.meetingRoomService.controller.interfaces.RoomServiceController;
 import cz.cvut.fel.meetingRoomService.domain.Room;
 import cz.cvut.fel.meetingRoomService.domain.Reservation;
+import cz.cvut.fel.meetingRoomService.dto.FindRoomDto;
 import cz.cvut.fel.meetingRoomService.service.interfaces.ReservationService;
 import cz.cvut.fel.meetingRoomService.service.interfaces.RoomService;
 import org.slf4j.Logger;
@@ -115,10 +116,10 @@ public class RoomServiceControllerImpl implements RoomServiceController {
 
     @Override
     @GetMapping(value = "/rooms/byParams")
-    public ResponseEntity<Set<Room>> getAvailableRoomsByParams(@RequestBody Date onDate, @RequestBody String city, @RequestBody int capacity) {
+    public ResponseEntity<Set<Room>> getAvailableRoomsByParams(@RequestBody FindRoomDto findRoomDto) {
         logger.info("GET rooms/byParams/ request");
 
-        return ResponseEntity.ok(roomService.getAvailableRoomsByParams(onDate, city, capacity));
+        return ResponseEntity.ok(roomService.getAvailableRoomsByParams(findRoomDto.getOnDate(), findRoomDto.getCity(), findRoomDto.getCapacity()));
     }
 
     @Override
