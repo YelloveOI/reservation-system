@@ -29,7 +29,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        List<String> apiKeysHeader = exchange.getRequest().getHeaders().get("gatewaykey");
+        List<String> apiKeysHeader = exchange.getRequest().getHeaders().get("gatewayKey");
 
         log.info("apikey '{}'", apiKeysHeader);
 
@@ -40,6 +40,8 @@ public class AuthFilter implements GlobalFilter, Ordered {
             log.warn("You can't consume this service, please validate your api keys");
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You can't consume this service, please validate your api keys");
         }
+
+        log.info("Request consumed");
 
         return chain.filter(exchange);
     }

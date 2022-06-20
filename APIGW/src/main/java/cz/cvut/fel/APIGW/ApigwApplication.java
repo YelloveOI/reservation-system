@@ -37,11 +37,17 @@ public class ApigwApplication {
 	public void initKeysToRedis() {
 		List<ApiKey> apiKeys = new ArrayList<>();
 		apiKeys.add(new ApiKey("343C-ED0B-4137-B27E", Stream.of(AppConstants.ROOM_RESERVATION_KEY,
-				AppConstants.INVOICE_KEY).collect(Collectors.toList())));
+				AppConstants.INVOICE_KEY, AppConstants.USER_KEY).collect(Collectors.toList())));
+
 		apiKeys.add(new ApiKey("FA48-EF0C-427E-8CCF", Stream.of(AppConstants.ROOM_RESERVATION_KEY)
 				.collect(Collectors.toList())));
+
+		apiKeys.add(new ApiKey("ANS8-ESWC-867D-HGD8", Stream.of(AppConstants.USER_KEY)
+				.collect(Collectors.toList())));
+
 		List<Object> lists = redisHashComponent.hValues(AppConstants.RECORD_KEY);
-		if (lists.isEmpty()) {
+
+		if (!lists.isEmpty()) {
 			apiKeys.forEach(k -> redisHashComponent.hSet(AppConstants.RECORD_KEY, k.getKey(), k));
 		}
 	}
@@ -60,6 +66,13 @@ public class ApigwApplication {
 						r -> r
 								.path("/room-reservation-service/**")
 								.uri("http://localhost:9001"))
+
+				.route(
+						AppConstants.USER_KEY,
+						r -> r
+								.path("/user-service/**")
+								.uri("http://localhost:9003")
+				)
 
 				.build();
 	}

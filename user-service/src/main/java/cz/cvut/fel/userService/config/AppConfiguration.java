@@ -34,14 +34,19 @@ public class AppConfiguration implements WebMvcConfigurer {
         return objectMapper;
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(@NotNull CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").exposedHeaders(HttpHeaders.LOCATION);
-            }
-        };
-    }
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(@NotNull CorsRegistry registry) {
+//                registry
+//                        .addMapping("/**")
+//                        .allowedOrigins("*")
+//                        .allowedMethods("*")
+//                        .allowedHeaders("Content-Type, gatewayKey")
+//                        .exposedHeaders(HttpHeaders.LOCATION);
+//            }
+//        };
+//    }
 }
 

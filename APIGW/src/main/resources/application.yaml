@@ -4,4 +4,13 @@ spring:
   redis:
     host: localhost
     port: 6379
-#    url: rediss://:pa762b10fc4b46a417fc1b8531afaba0f5a0a3df81d5824d27d78c6c42f044ed6@ec2-34-249-208-201.eu-west-1.compute.amazonaws.com:23540
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders:
+              - ContentType
+              - gatewayKey
