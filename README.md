@@ -1,5 +1,5 @@
 # Rezervační systém zasedacích místností
-### Semestrální práce předmětu B6B36NSS.
+## Semestrální práce předmětu B6B36NSS.
 
 **Členové týmu:**
 
@@ -26,6 +26,15 @@ Jedná se o informační systém, který bude sloužit k rezervaci zasedacích m
 
 Firmy spravující kancelářskou budovu nebo budovy se zasedacími místnostmi.
 
-**Není:** Frontend
-**Je:** Component diagram, Business requirements, Functional and Non-functional requirements, Sequence diagrams, Use-Case diagrams, Class diagram, téměř backend.
-	Design patterns: Dependency Injection (DI), Inversion of Control (IoC)
+## Návod na použití:
+1) **Spouštění kafky**
+   1) bin\windows\zookeeper-server-start.bat config\zookeeper.properties
+   2) bin\windows\kafka-server-start.bat config\server.properties
+2) **Spouštění Redis**
+   1) redis-server.exe
+3) **Spouštění Back-Endu**
+   1) Řádné spuštění v IntelliJIDEA
+4) **Spouštění Front-Endu**
+   1) npm install
+   2) cd ./node_modules/
+   3) npm start
