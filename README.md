@@ -38,3 +38,15 @@ Firmy spravující kancelářskou budovu nebo budovy se zasedacími místnostmi.
    1) npm install
    2) cd ./node_modules/
    3) npm start
+
+## Požadavky
+1) Redis cache: APIGW service
+2) Databaze: user-service, room-reservation-service, invoice-service
+3) Kafka: room-reservation-service, invoice-service
+4) Security pomoci API Keys: APIGW service (kliče jsou uloženy do cahce)
+5) Interceptor: room-reservation-service
+6) REST: user-service, room-reservation-service, invoice-service
+7) Heroku: ano
+8) Architektura: mikroservisní
+9) Elasticsearch: neni
+10) Patterny: Saga-Choreography, DI, Facade, API-Gateway, Event-Sourcing, Databaze-per-Service, API-Keys Authentication
