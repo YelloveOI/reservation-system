@@ -13,6 +13,7 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Integer> {
     @Query("select i from Invoice i where i.ownerId = ?1 and i.isRemoved = false ORDER BY i.creationDate, i.creationTime")
     List<Invoice> findAllByOwnerIdAndRemovedIsFalse(Integer id);
 
+    @Query("select i from Invoice i where i.ownerId = ?1")
     List<Invoice> findAllByOwnerId(Integer id);
 
     List<Invoice> findAllByReservationId(Integer reservationId);

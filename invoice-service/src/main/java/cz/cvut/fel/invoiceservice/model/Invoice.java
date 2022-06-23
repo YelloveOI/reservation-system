@@ -2,6 +2,7 @@ package cz.cvut.fel.invoiceservice.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Entity;
 import java.time.LocalDate;
@@ -57,4 +58,23 @@ public class Invoice extends AbstractEntity {
     }
 
     public Invoice() {}
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Invoice)) {
+            return false;
+        }
+        Invoice c = (Invoice) o;
+        return getId().equals(c.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 31)
+                    .append(getId())
+                    .toHashCode();
+    }
 }

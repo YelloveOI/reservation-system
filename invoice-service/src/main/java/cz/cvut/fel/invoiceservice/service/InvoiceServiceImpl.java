@@ -89,7 +89,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void deleteById(@NotNull Integer id) {
+    public void removeById(@NotNull Integer id) {
         Optional<Invoice> toDelete = repo.findById(id);
         if (toDelete.isPresent()) {
             Invoice invoice = toDelete.get();
@@ -103,6 +103,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public void deleteAllByReservationId(Integer reservationId) {
-        repo.findAllByReservationId(reservationId).forEach(v -> deleteById(v.getId()));
+        repo.findAllByReservationId(reservationId).forEach(v -> removeById(v.getId()));
     }
 }

@@ -159,7 +159,7 @@ public class InvoiceController {
     @DeleteMapping("/deletion/{id}")
     public ResponseEntity<Void> deleteInvoice(@PathVariable int id) {
         try {
-            invoiceService.deleteById(id);
+            invoiceService.removeById(id);
         } catch (Exception e) {
             LOG.warn("Invoice could not be deleted! {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
