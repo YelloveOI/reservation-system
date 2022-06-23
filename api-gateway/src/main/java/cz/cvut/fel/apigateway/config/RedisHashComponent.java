@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * One more abstraction level above redisTemplate.
+ * It provides basic HSET, HGET and HVALUES Redis commands
+ */
 @Component
 @Slf4j
 public class RedisHashComponent {

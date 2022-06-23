@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"cz.cvut.fel.apigateway"},{"l":"cz.cvut.fel.apigateway.config"},{"l":"cz.cvut.fel.apigateway.dto"},{"l":"cz.cvut.fel.apigateway.filter"},{"l":"cz.cvut.fel.apigateway.util"}];updateSearchResults();

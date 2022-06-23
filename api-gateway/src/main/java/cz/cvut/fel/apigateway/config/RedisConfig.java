@@ -7,8 +7,13 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.annotation.PreDestroy;
 import java.util.Objects;
 
+/**
+ * Standard Redis configuration which
+ * uses credentials from configuration yaml file
+ */
 @Configuration
 public class RedisConfig {
 

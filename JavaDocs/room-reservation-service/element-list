@@ -1,0 +1,14 @@
+cz.cvut.fel.roomreservationservice
+cz.cvut.fel.roomreservationservice.config
+cz.cvut.fel.roomreservationservice.controller
+cz.cvut.fel.roomreservationservice.controller.interfaces
+cz.cvut.fel.roomreservationservice.domain
+cz.cvut.fel.roomreservationservice.dto
+cz.cvut.fel.roomreservationservice.enums
+cz.cvut.fel.roomreservationservice.interceptor
+cz.cvut.fel.roomreservationservice.kafka.consumers
+cz.cvut.fel.roomreservationservice.kafka.publishers
+cz.cvut.fel.roomreservationservice.kafka.publishers.interfaces
+cz.cvut.fel.roomreservationservice.repository.interfaces
+cz.cvut.fel.roomreservationservice.service
+cz.cvut.fel.roomreservationservice.service.interfaces

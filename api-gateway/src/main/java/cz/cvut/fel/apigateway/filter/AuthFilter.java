@@ -20,6 +20,10 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+/**
+ * Component verifies http request by api key,
+ * which located in http header
+ */
 @Component
 @Slf4j
 public class AuthFilter implements GlobalFilter, Ordered {

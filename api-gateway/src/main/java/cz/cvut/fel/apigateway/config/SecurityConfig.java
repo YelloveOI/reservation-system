@@ -6,6 +6,9 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
+/**
+ * Disabling CSRF, CORS is configured in yaml configuration
+ */
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
