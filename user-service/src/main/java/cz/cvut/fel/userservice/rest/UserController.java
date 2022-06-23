@@ -29,12 +29,21 @@ public class UserController {
         return new ResponseEntity<>("User service", HttpStatus.valueOf(200));
     }
 
+    /**
+     * returns list of users if authored to do so
+     * @return list of users
+     */
     // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     @GetMapping(value="/user")
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.valueOf(200));
     }
 
+    /**
+     * return certain user by his id if authored to do so
+     * @param id id of user
+     * @return user with given id
+     */
     // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     @GetMapping(value = "/user/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
@@ -45,6 +54,11 @@ public class UserController {
         }
     }
 
+    /**
+     * create user with given body if authored to do so
+     * @param user given user object
+     * @return http status created
+     */
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value="/user")
     public ResponseEntity<Void> createUser(@RequestBody User user) {
@@ -53,6 +67,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.valueOf(201));
     }
 
+    /**
+     * updates user by id with inserted params if authored to do so
+     * @param user given user object with changes
+     * @param id id of user
+     * @return response created if created, error if something else
+     */
     // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value="/user/{id}")
     public ResponseEntity<Void> updateUser(@RequestBody User user, @PathVariable("id") Integer id) {
@@ -65,6 +85,12 @@ public class UserController {
         }
     }
 
+    /**
+     * deletes user by id if authored to do so
+     * @param id id of targeted user
+     * @return response ok if ok, not ok if something else
+     */
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value="/user/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Integer id) {
         if(userService.userExistsById(id)) {
