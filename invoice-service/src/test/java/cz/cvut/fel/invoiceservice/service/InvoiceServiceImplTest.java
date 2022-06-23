@@ -44,14 +44,28 @@ public class InvoiceServiceImplTest {
     }
 
     @Test
+    public void findByIdRemoved() {
+        Integer ownerId = 102;
+        Invoice expectedInvoice = new Invoice(101, 90847, 700);
+        repo.save(new Invoice(ownerId, 180847, 2000));
+        repo.save(new Invoice(101, 580847, 100));
+        repo.save(expectedInvoice);
+        Integer expectedInvoiceId = expectedInvoice.getId();
+        invoiceService.removeById(expectedInvoiceId);
+        repo.save(new Invoice(ownerId, 1847, 2500));
+
+        Assertions.assertThrows(NotFoundException.class, () -> invoiceService.findById(ownerId, expectedInvoiceId));
+    }
+
+    @Test
     public void findByIdIllegalAccess() {
         Integer ownerId = 102;
         Invoice expectedInvoice = new Invoice(101, 90847, 700);
         repo.save(new Invoice(ownerId, 180847, 2000));
         repo.save(new Invoice(101, 580847, 100));
         repo.save(expectedInvoice);
-        repo.save(new Invoice(ownerId, 1847, 2500));
         Integer expectedInvoiceId = expectedInvoice.getId();
+        repo.save(new Invoice(ownerId, 1847, 2500));
 
         Assertions.assertThrows(Exception.class, () -> invoiceService.findById(ownerId, expectedInvoiceId));
     }
@@ -165,6 +179,7 @@ public class InvoiceServiceImplTest {
         repo.save(new Invoice(40, 1847, 2500));
 
         invoiceService.removeById(expectedInvoiceId);
+        Assertions.assertThrows(Exception.class, () -> invoiceService.findById(ownerId, expectedInvoiceId));
         Invoice result = invoiceService.findByIdAdmin(expectedInvoiceId);
 
         assertEquals(expectedInvoiceId, result.getId());
