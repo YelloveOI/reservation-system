@@ -1,4 +1,4 @@
-package cz.cvut.fel.APIGW.dto;
+package cz.cvut.fel.apigateway.dto;
 
 import lombok.*;
 

@@ -1,11 +1,11 @@
-package cz.cvut.fel.APIGW.filter;
+package cz.cvut.fel.apigateway.filter;
 
-import cz.cvut.fel.APIGW.config.RedisHashComponent;
-import cz.cvut.fel.APIGW.dto.ApiKey;
-import cz.cvut.fel.APIGW.util.AppConstants;
-import cz.cvut.fel.APIGW.util.MapperUtils;
+import cz.cvut.fel.apigateway.config.RedisHashComponent;
+import cz.cvut.fel.apigateway.dto.ApiKey;
+import cz.cvut.fel.apigateway.util.MapperUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.route.Route;
@@ -24,6 +24,8 @@ import java.util.List;
 @Slf4j
 public class AuthFilter implements GlobalFilter, Ordered {
 
+    @Value("record-key")
+    private String RECORD_KEY;
     @Autowired
     private RedisHashComponent redisHashComponent;
 
@@ -47,7 +49,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
     }
 
     private boolean isAuthorize(String routeId, String apiKey) {
-        Object apiKeyObject=redisHashComponent.hGet(AppConstants.RECORD_KEY, apiKey);
+        Object apiKeyObject=redisHashComponent.hGet(RECORD_KEY, apiKey);
         if(apiKeyObject!=null){
             ApiKey key= MapperUtils.objectMapper(apiKeyObject, ApiKey.class);
             return key.getServices().contains(routeId);

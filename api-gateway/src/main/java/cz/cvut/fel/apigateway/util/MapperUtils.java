@@ -1,4 +1,4 @@
-package cz.cvut.fel.APIGW.util;
+package cz.cvut.fel.apigateway.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.experimental.UtilityClass;

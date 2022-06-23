@@ -9,11 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>APIGW</artifactId>
+    <artifactId>api-gateway</artifactId>
 
     <properties>
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
+        <start-class>cz.cvut.fel.apigateway.ApigwApplication</start-class>
     </properties>
 
     <dependencies>
@@ -33,12 +34,6 @@
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
             <version>2.6.7</version>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>io.lettuce</groupId>-->
-<!--            <artifactId>lettuce-core</artifactId>-->
-<!--            <version>6.1.8.RELEASE</version>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -64,7 +59,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-        <finalName>APIGW</finalName>
+        <finalName>api-gateway</finalName>
     </build>
 
 </project>

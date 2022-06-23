@@ -1,4 +1,4 @@
-package cz.cvut.fel.APIGW.config;
+package cz.cvut.fel.apigateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
