@@ -2,8 +2,7 @@ package cz.cvut.fel.roomreservationservice.domain;
 
 import cz.cvut.fel.roomreservationservice.enums.ReservationStatus;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -12,40 +11,28 @@ import java.sql.Date;
 import java.sql.Time;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Reservation extends AbstractEntity {
 
-    @Getter
-    @Setter
     private Date date;
 
-    @Getter
-    @Setter
     private int totalPrice;
 
-    @Getter
-    @Setter
     private Time timeFrom;
 
-    @Getter
-    @Setter
     private Time timeTo;
 
-    @Getter
-    @Setter
     @ManyToOne
     private Room room;
 
-    @Getter
-    @Setter
     private Integer userId;
 
-    @Getter
-    @Setter
     @Enumerated
     private ReservationStatus status;
 
-    @Getter
-    @Setter
     private int durationInHours;
 
 }

@@ -3,16 +3,16 @@ package events;
 import lombok.Getter;
 import lombok.Setter;
 
-public class InvoicePayed extends InvoiceEvent {
+public class InvoicePaid extends InvoiceEvent {
 
     @Getter
     @Setter
     public Integer reservationId;
 
-    public InvoicePayed() {
+    public InvoicePaid() {
     }
 
-    public InvoicePayed(Integer invoiceId, Integer reservationId) {
+    public InvoicePaid(Integer invoiceId, Integer reservationId) {
         super(invoiceId);
         this.reservationId = reservationId;
     }

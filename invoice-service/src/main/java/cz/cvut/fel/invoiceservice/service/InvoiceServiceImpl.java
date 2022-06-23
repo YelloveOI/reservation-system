@@ -5,7 +5,7 @@ import cz.cvut.fel.invoiceservice.kafka.publishers.interfaces.InvoiceEventPublis
 import cz.cvut.fel.invoiceservice.model.Invoice;
 import cz.cvut.fel.invoiceservice.repository.InvoiceRepository;
 import cz.cvut.fel.invoiceservice.service.interfaces.InvoiceService;
-import events.InvoicePayed;
+import events.InvoicePaid;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +68,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         repo.save(invoice);
 
-        publisher.send(new InvoicePayed(id, invoice.getReservationId()));
+        publisher.send(new InvoicePaid(id, invoice.getReservationId()));
     }
 
     /* ADMIN **/

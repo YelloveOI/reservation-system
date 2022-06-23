@@ -23,9 +23,9 @@ public class EventHandlerImpl implements EventHandler {
     @Override
     public CompletableFuture<Void> onEvent(final InvoiceEvent event) {
         return CompletableFuture.runAsync(() -> {
-            if(event instanceof InvoicePayed) {
+            if(event instanceof InvoicePaid) {
                 reservationService.updateReservationStatus(
-                        ((InvoicePayed) event).getReservationId(),
+                        ((InvoicePaid) event).getReservationId(),
                         ReservationStatus.PAID
                 );
             } else if(event instanceof InvoiceCreationFailed) {
