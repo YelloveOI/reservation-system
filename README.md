@@ -28,7 +28,7 @@ Kryštof Müller, Lukáš Novák, Ivan Shalaev, Eduard Nurmukhametov
 7) Heroku: ano
 8) Architektura: mikroservisní
 9) Elasticsearch: neni
-10) Patterny: Saga-Choreography, DI, Facade, API-Gateway, Event-Sourcing, Databaze-per-Service, API-Keys Authentication
+10) Design Patterny: Saga-Choreography, DI, IoC, Facade, API-Gateway, Event-Sourcing, Database-per-Service, API-Keys Authentication
 
 ## Popis aplikace, motivace:
 
