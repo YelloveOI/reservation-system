@@ -5,13 +5,14 @@ import cz.cvut.fel.invoiceservice.kafka.publishers.interfaces.InvoiceEventPublis
 import cz.cvut.fel.invoiceservice.model.Invoice;
 import cz.cvut.fel.invoiceservice.repository.InvoiceRepository;
 import cz.cvut.fel.invoiceservice.service.interfaces.InvoiceService;
+import events.InvoicePaid;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,7 @@ public class InvoiceServiceImplTest {
     @Autowired
     private InvoiceService invoiceService;
 
-    @Mock
+    @MockBean
     InvoiceEventPublisher publisher;
 
     @Test
@@ -98,20 +99,21 @@ public class InvoiceServiceImplTest {
         assertEquals(expectedInvoices, result);
     }
 
-    @Disabled("Kafka needs to be up.")
     @Test
-    public void payInvoiceCorrect() throws Exception {
+    public void payInvoicePaid() throws Exception {
         Integer ownerId = 101;
         repo.save(new Invoice(5, 180847, 2000));
         Invoice expectedInvoice = new Invoice(ownerId, 90847, 700);
         repo.save(expectedInvoice);
         Integer expectedInvoiceId = expectedInvoice.getId();
         repo.save(new Invoice(ownerId, 580847, 100));
-        //Mockito.when(publisher.send(Mockito.any())).thenReturn(null);
 
         invoiceService.payInvoice(ownerId, expectedInvoiceId);
 
         assertTrue(expectedInvoice.isPaid());
+        Mockito.verify(publisher, Mockito.times(1)).send(
+                ArgumentMatchers.argThat(e -> e instanceof InvoicePaid && e.invoiceId.equals(expectedInvoiceId))
+        );
     }
 
     @Test
@@ -124,6 +126,7 @@ public class InvoiceServiceImplTest {
         repo.save(new Invoice(ownerId, 580847, 100));
 
         Assertions.assertThrows(Exception.class, () -> invoiceService.payInvoice(102, expectedInvoiceId));
+
     }
 
     @Test
