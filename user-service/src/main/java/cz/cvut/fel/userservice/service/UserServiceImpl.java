@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void createUser(@NotNull User user) {
-        user.setPassword(BCrypt.hashpw(user.getPassword(),BCrypt.gensalt()));
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         repo.save(user);
 
         logger.info(String.format("User %s created", user.getUsername()));
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService{
     public void deleteUser(@NotNull Integer id) {
         Optional<User> user = repo.findById(id);
 
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             user.get().setRemoved(true);
             repo.save(user.get());
 
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updateUser(@NotNull User user) {
-        if(!repo.existsById(user.getId())) {
+        if (!repo.existsById(user.getId())) {
             logger.warn(String.format("User with id %s doesn't exist", user.getId()));
             return;
         }
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService{
     public User getUserById(Integer id) {
         Optional<User> user = repo.findById(id);
 
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             return user.get();
         } else {
             logger.warn(String.format("User with id %s doesn't exist", id));

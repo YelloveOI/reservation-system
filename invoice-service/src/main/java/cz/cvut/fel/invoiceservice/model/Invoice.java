@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Period;
+import java.util.Objects;
 
 @Entity
 public class Invoice extends AbstractEntity {
@@ -67,14 +68,29 @@ public class Invoice extends AbstractEntity {
         if (!(o instanceof Invoice)) {
             return false;
         }
-        Invoice c = (Invoice) o;
-        return getId().equals(c.getId());
+        Invoice i = (Invoice) o;
+        return getId().equals(i.getId())
+                && getAmount().equals(i.getAmount())
+                && Objects.equals(getCreationDate(), i.getCreationDate())
+                && Objects.equals(getCreationTime(), i.getCreationTime())
+                && Objects.equals(getPaymentDeadline(), i.getPaymentDeadline())
+                && Objects.equals(isPaid(), i.isPaid())
+                && Objects.equals(isRemoved(), i.isRemoved())
+                && getOwnerId().equals(i.getOwnerId())
+                && getReservationId().equals(i.getReservationId());
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 31)
                     .append(getId())
+                    .append(getCreationDate())
+                    .append(getCreationTime())
+                    .append(getPaymentDeadline())
+                    .append(isPaid())
+                    .append(isRemoved())
+                    .append(getOwnerId())
+                    .append(getReservationId())
                     .toHashCode();
     }
 }

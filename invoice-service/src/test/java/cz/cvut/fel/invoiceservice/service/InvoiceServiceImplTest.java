@@ -1,12 +1,15 @@
 package cz.cvut.fel.invoiceservice.service;
 
 import cz.cvut.fel.invoiceservice.exception.NotFoundException;
+import cz.cvut.fel.invoiceservice.kafka.publishers.interfaces.InvoiceEventPublisher;
 import cz.cvut.fel.invoiceservice.model.Invoice;
 import cz.cvut.fel.invoiceservice.repository.InvoiceRepository;
 import cz.cvut.fel.invoiceservice.service.interfaces.InvoiceService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -27,6 +30,9 @@ public class InvoiceServiceImplTest {
 
     @Autowired
     private InvoiceService invoiceService;
+
+    @Mock
+    InvoiceEventPublisher publisher;
 
     @Test
     public void findByIdCorrect() throws Exception {
@@ -101,6 +107,7 @@ public class InvoiceServiceImplTest {
         repo.save(expectedInvoice);
         Integer expectedInvoiceId = expectedInvoice.getId();
         repo.save(new Invoice(ownerId, 580847, 100));
+        //Mockito.when(publisher.send(Mockito.any())).thenReturn(null);
 
         invoiceService.payInvoice(ownerId, expectedInvoiceId);
 

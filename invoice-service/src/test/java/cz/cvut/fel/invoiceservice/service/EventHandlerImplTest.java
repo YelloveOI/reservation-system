@@ -27,9 +27,9 @@ public class EventHandlerImplTest {
 
         ReservationEvent reservationCancelled = new ReservationCancelled(reservationId);
 
-        eventHandler.onEvent(reservationCancelled).thenRun(() -> {
-            Mockito.verify(invoiceService, Mockito.times(1)).deleteAllByReservationId(reservationId);
-        });
+        eventHandler.onEvent(reservationCancelled).thenRun(() ->
+                Mockito.verify(invoiceService,
+                        Mockito.times(1)).deleteAllByReservationId(reservationId));
     }
 
     @Test
@@ -40,8 +40,8 @@ public class EventHandlerImplTest {
 
         ReservationCreated reservationCreated = new ReservationCreated(reservationId, userId, amount);
 
-        eventHandler.onEvent(reservationCreated).thenRun(() -> {
-            Mockito.verify(invoiceService, Mockito.times(1)).save(userId, reservationId, amount);
-        });
+        eventHandler.onEvent(reservationCreated).thenRun(() ->
+                Mockito.verify(invoiceService,
+                        Mockito.times(1)).save(userId, reservationId, amount));
     }
 }
