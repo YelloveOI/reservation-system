@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-@TestPropertySource(locations = "classpath:application-test.properties")
 public class UserServiceImplTest {
 
     @Autowired
@@ -26,18 +24,11 @@ public class UserServiceImplTest {
     @Autowired
     private UserService userService;
 
-    private static User user;
+    private User user;
 
     @BeforeEach
     void init() {
-        user = new User();
-        user.setUsername("Tom55");
-        user.setFirstName("Thomas");
-        user.setLastName("Andersen");
-        user.setPassword("NoWayHose");
-        user.setRole(Role.CUSTOMER);
-        user.setEmail("thomas.ande@nss.cvut.cz");
-        user.setRemoved(false);
+        user = SystemInitializer.generateUser();
     }
 
     @Test
@@ -103,30 +94,6 @@ public class UserServiceImplTest {
         User result = userService.getUserById(558982954);
 
         assertNull(result);
-    }
-
-    @Test
-    public void getAllUsersReturned() {
-        List<User> expectedUsers = new ArrayList<>();
-        Integer expectedSize = 6;
-        repo.save(user);
-        expectedUsers.add(user);
-
-        final User user2 = new User();
-        user2.setUsername("Amy55");
-        user2.setFirstName("Amy");
-        user2.setLastName("Lee");
-        user2.setPassword("HesloVeslo22");
-        user2.setRole(Role.CUSTOMER);
-        user2.setEmail("amy.l@nss.cvut.cz");
-        user2.setRemoved(false);
-        repo.save(user2);
-        expectedUsers.add(user2);
-
-        List<User> result = userService.getAllUsers();
-
-        assertEquals(expectedSize, result.size());
-        assertTrue(result.containsAll(expectedUsers));
     }
 
     @Test

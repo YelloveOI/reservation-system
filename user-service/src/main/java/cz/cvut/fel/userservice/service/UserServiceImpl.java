@@ -27,6 +27,10 @@ public class UserServiceImpl implements UserService{
     }
 
 
+    /**
+     * Creates new user, encrypts password and stores the object.
+     * @param user User object to store.
+     */
     @Override
     public void createUser(@NotNull User user) {
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
@@ -35,6 +39,10 @@ public class UserServiceImpl implements UserService{
         logger.info(String.format("User %s created", user.getUsername()));
     }
 
+    /**
+     * Marks user having this userID as removed in the database.
+     * @param id User to mark as removed.
+     */
     @Override
     public void deleteUser(@NotNull Integer id) {
         Optional<User> user = repo.findById(id);
@@ -49,6 +57,10 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    /**
+     * Updates user's details if such user exists.
+     * @param user New user details.
+     */
     @Override
     public void updateUser(@NotNull User user) {
         if (!repo.existsById(user.getId())) {
@@ -61,6 +73,11 @@ public class UserServiceImpl implements UserService{
         logger.info(String.format("User %s updated", user));
     }
 
+    /**
+     * Find user by ID.
+     * @param id ID of user to find.
+     * @return Returns the found user object.
+     */
     @Override
     public User getUserById(Integer id) {
         Optional<User> user = repo.findById(id);
@@ -74,11 +91,20 @@ public class UserServiceImpl implements UserService{
         return null;
     }
 
+    /**
+     * Finds all existing users.
+     * @return Returns all found users.
+     */
     @Override
     public List<User> getAllUsers() {
         return (List<User>) repo.findAll();
     }
 
+    /**
+     * Checks whether a user with such ID exists.
+     * @param id ID of user to be found.
+     * @return True if exists, False if not.
+     */
     @Override
     public boolean userExistsById(Integer id) {
         return repo.existsById(id);
