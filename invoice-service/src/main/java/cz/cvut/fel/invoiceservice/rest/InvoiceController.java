@@ -94,7 +94,7 @@ public class InvoiceController {
 
     /**
      * Paying for given invoice.
-     * @param payInvoiceDto
+     * @param payInvoiceDto DTO storing invoice ID and user ID.
      * @return Ok/Bad request
      */
     //@PreAuthorize("hasAnyRole('ROLE_USER')")
@@ -111,7 +111,7 @@ public class InvoiceController {
         return ResponseEntity.ok().headers(headers).body("OK");
     }
 
-    /* ADMIN **/
+    /* ADMIN */
 
     /**
      * Return any given invoice to admin.
