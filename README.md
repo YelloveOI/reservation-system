@@ -5,27 +5,6 @@
 
 Kryštof Müller, Lukáš Novák, Ivan Shalaev, Eduard Nurmukhametov
 
-**Popis projektu:**
-
-Jedná se o informační systém, který bude sloužit k rezervaci zasedacích místností, především pro firmy jakékoliv velikosti. Místnosti si však budou moci rezervovat i běžní občané pro různé společenské akce.
-
-**Hlavní funkce:** 
-- **Rezervace** místnosti na určitý den
-- Informace o **obsazenosti** místností
-- Informace o **dostupném vybavení** místností
-- **Prioritizace** vybraných místností na základě obsazenosti ostatních místností
-- **UI prostředí**
-
-| **Užívatelé** | **Umožněné funkce** |
-| ------ | ------ |
-| **Zákazník** | **přehled** dostupných místností, **informace** o nich, možnost je **filtrovat** a jejich **rezervace** |
-| **Zaměstnanec** | **přehled všech existujících místností**, jejich **blokování** a **rušení rezervací** |
-| **Správce systému** | **přidávat/odebírat místnosti** a **přidávat nové uživatele** a nastavovat jejich **přístupová práva** |
-
-**Určen pro:**
-
-Firmy spravující kancelářskou budovu nebo budovy se zasedacími místnostmi.
-
 ## Návod na použití:
 1) **Spouštění kafky**
    1) bin\windows\zookeeper-server-start.bat config\zookeeper.properties
@@ -50,3 +29,41 @@ Firmy spravující kancelářskou budovu nebo budovy se zasedacími místnostmi.
 8) Architektura: mikroservisní
 9) Elasticsearch: neni
 10) Patterny: Saga-Choreography, DI, Facade, API-Gateway, Event-Sourcing, Databaze-per-Service, API-Keys Authentication
+
+## Popis aplikace, motivace:
+
+Jedná se o informační systém, který bude sloužit k rezervaci zasedacích místností,
+především pro firmy jakékoliv velikosti. Firma v systému zadá místnosti, které je možné si
+jednoduše rezervovat dle časové dostupnosti, požadované velikosti či kapacitě v tomto
+informačním systému. Motivací projektu je vytvoření jednoduché organizační aplikace pro
+tento případ.
+
+## Strategický záměr (stav „TO BE“)
+
+Budoucí stav aplikace je takový, že si vlastník systému naplní databázi vlastními daty,
+kterými jsou především místnosti a informace o nich. Tyto místnosti jdou poté rezervovat.
+Místnosti se mohou lišit obsazeností, kapacitou, dostupným vybavením. Tyto informace jsou
+uživateli poskytnuty a lze dle nich filtrovat. Systém bude postaven na mikroservisní
+architektuře s využitím moderních technologií doprovázející tento implementační přístup.
+
+## Obchodní přínos Stav „AS IS“
+
+V současné době máme tzv. monolitní Back-End aplikaci splňující základní business
+požadavky
+
+## Seznam uživatelů
+
+Systém bude rozlišovat tři možné uživatele:
+
+- **Zákazník** - představuje uživatele se zájmem o rezervaci místnosti. Má mít možnost
+místnosti rezervovat a rušit své rezervace, filtrovat je na základě vlastností, zobrazit
+si o nich informace a přehled o jejich dostupnosti.
+- **Zaměstnanec** - pracovník starající se o správu rezervací. Má moci vše, co Zákazník
+a navíc vytvářet a rušit rezervace ostatním uživatelům, mít přehled o všech
+existujících místnostech a blokovat je například při poruše vybavení nebo z důvodu
+státních svátků.
+- **Správce systému** - vše, co Zaměstnanec a navíc možnost přidávat nové uživatele,
+nastavovat jim role v systému a přidávat/odebírat existující místnosti.
+
+
+
