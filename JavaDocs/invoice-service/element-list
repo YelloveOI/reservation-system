@@ -1,0 +1,12 @@
+cz.cvut.fel.invoiceservice
+cz.cvut.fel.invoiceservice.dto
+cz.cvut.fel.invoiceservice.exception
+cz.cvut.fel.invoiceservice.kafka.consumers
+cz.cvut.fel.invoiceservice.kafka.publishers
+cz.cvut.fel.invoiceservice.kafka.publishers.interfaces
+cz.cvut.fel.invoiceservice.model
+cz.cvut.fel.invoiceservice.repository
+cz.cvut.fel.invoiceservice.rest
+cz.cvut.fel.invoiceservice.rest.util
+cz.cvut.fel.invoiceservice.service
+cz.cvut.fel.invoiceservice.service.interfaces
