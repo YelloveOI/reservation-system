@@ -44,7 +44,7 @@ public class RoomServiceImpl implements RoomService {
 
         repo.save(room.get());
 
-        logger.info(String.format("Room with id %s blocked"), roomId);
+        logger.info(String.format("Room with id %s blocked", roomId));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class RoomServiceImpl implements RoomService {
 
         repo.save(room.get());
 
-        logger.info(String.format("Room with id %s deleted"), roomId);
+        logger.info(String.format("Room with id %s deleted", roomId));
 
     }
 
