@@ -1,0 +1,13 @@
+cz.cvut.fel.userservice
+cz.cvut.fel.userservice.config
+cz.cvut.fel.userservice.dto
+cz.cvut.fel.userservice.exception
+cz.cvut.fel.userservice.model
+cz.cvut.fel.userservice.repository
+cz.cvut.fel.userservice.rest
+cz.cvut.fel.userservice.rest.util
+cz.cvut.fel.userservice.security
+cz.cvut.fel.userservice.security.model
+cz.cvut.fel.userservice.service
+cz.cvut.fel.userservice.service.security
+cz.cvut.fel.userservice.util

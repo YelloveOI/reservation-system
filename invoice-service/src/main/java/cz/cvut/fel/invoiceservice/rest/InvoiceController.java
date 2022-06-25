@@ -94,7 +94,7 @@ public class InvoiceController {
 
     /**
      * Paying for given invoice.
-     * @param payInvoiceDto
+     * @param payInvoiceDto DTO storing invoice ID and user ID.
      * @return Ok/Bad request
      */
     //@PreAuthorize("hasAnyRole('ROLE_USER')")
@@ -111,7 +111,7 @@ public class InvoiceController {
         return ResponseEntity.ok().headers(headers).body("OK");
     }
 
-    /* ADMIN **/
+    /* ADMIN */
 
     /**
      * Return any given invoice to admin.
@@ -159,7 +159,7 @@ public class InvoiceController {
     @DeleteMapping("/deletion/{id}")
     public ResponseEntity<Void> deleteInvoice(@PathVariable int id) {
         try {
-            invoiceService.deleteById(id);
+            invoiceService.removeById(id);
         } catch (Exception e) {
             LOG.warn("Invoice could not be deleted! {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

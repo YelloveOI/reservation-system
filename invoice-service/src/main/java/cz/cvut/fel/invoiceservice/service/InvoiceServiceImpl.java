@@ -32,9 +32,17 @@ public class InvoiceServiceImpl implements InvoiceService {
         this.publisher = publisher;
     }
 
+    /**
+     * Checks if an invoice having such id exists and is not removed, if so, checks if the invoice belongs to the user
+     * and if so, returns it. Otherwise throws an Exception.
+     * @param ownerId Users id.
+     * @param id Invoice id.
+     * @return Corresponding invoice.
+     * @throws Exception NotFoundException for not found and Exception with description if not owned by the user.
+     */
     @Override
     public Invoice findById(@NotNull Integer ownerId, @NotNull Integer id) throws Exception {
-        Optional<Invoice> result = repo.findById(id);
+        Optional<Invoice> result = repo.findByIdAndRemovedIsFalse(id);
         if (result.isPresent()) {
             Invoice invoice = result.get();
             if (invoice.getOwnerId().equals(ownerId)) {
@@ -47,11 +55,24 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * Returns all of the valid invoices of the user. Excluding removed invoices.
+     * @param ownerId Users id.
+     * @return All the users valid invoices.
+     */
     @Override
     public List<Invoice> getMyInvoices(@NotNull Integer ownerId) {
         return repo.findAllByOwnerIdAndRemovedIsFalse(ownerId);
     }
 
+    /**
+     * Stores a new invoice. If the price value is invalid, throws IllegalArgumentException.
+     * @param ownerId Users id.
+     * @param reservationId Corresponding reservation id.
+     * @param price Price of the reservation. (above 0)
+     * @return Returns newly created invoice.
+     * @throws IllegalArgumentException Thrown if the price value is invalid.
+     */
     @Override
     public Invoice save(@NotNull Integer ownerId, @NotNull Integer reservationId, @NotNull Integer price) throws IllegalArgumentException {
         logger.info("Creating new Invoice");
@@ -61,6 +82,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         return repo.save(new Invoice(ownerId, reservationId, price));
     }
 
+    /**
+     * Marks the invoice as paid if the invoice exists.
+     * @param ownerId Users id.
+     * @param id Invoice id.
+     * @throws Exception Invoice may not exist.
+     */
     @Override
     public void payInvoice(@NotNull Integer ownerId, @NotNull Integer id) throws Exception {
         Invoice invoice = findById(ownerId, id);
@@ -71,8 +98,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         publisher.send(new InvoicePaid(id, invoice.getReservationId()));
     }
 
-    /* ADMIN **/
-
+    /**
+     * Returns and existing invoice, even deleted.
+     * @param id Id of the invoice.
+     * @return Returns the found invoice.
+     */
     @Override
     public Invoice findByIdAdmin(@NotNull Integer id) {
         Optional<Invoice> result = repo.findById(id);
@@ -83,13 +113,22 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * Returns all the owners existing invoices, even the deleted ones.
+     * @param id Id of the owner.
+     * @return Returns a list of found invoices.
+     */
     @Override
     public List<Invoice> getUserInvoicesAdmin(@NotNull Integer id) {
         return repo.findAllByOwnerId(id);
     }
 
+    /**
+     * Marks an invoice as removed if exists.
+     * @param id Id of the invoice.
+     */
     @Override
-    public void deleteById(@NotNull Integer id) {
+    public void removeById(@NotNull Integer id) {
         Optional<Invoice> toDelete = repo.findById(id);
         if (toDelete.isPresent()) {
             Invoice invoice = toDelete.get();
@@ -101,8 +140,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * Deletes all the invoices corresponding to a particular reservation.
+     * @param reservationId Id of the (cancelled) reservation.
+     */
     @Override
     public void deleteAllByReservationId(Integer reservationId) {
-        repo.findAllByReservationId(reservationId).forEach(v -> deleteById(v.getId()));
+        repo.findAllByReservationId(reservationId).forEach(v -> removeById(v.getId()));
     }
 }

@@ -16,7 +16,7 @@ public interface InvoiceService {
 
     List<Invoice> getUserInvoicesAdmin(Integer id);
 
-    void deleteById(Integer id);
+    void removeById(Integer id);
 
     void payInvoice(Integer ownerId, Integer id) throws Exception;
 

@@ -2,8 +2,10 @@ package cz.cvut.fel.userservice.model;
 
 
 import cz.cvut.fel.userservice.dto.UserDto;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "RRS_USER")
@@ -92,5 +94,38 @@ public class User extends AbstractEntity {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User u = (User) o;
+        return getId().equals(u.getId())
+                && Objects.equals(getEmail(), u.getEmail())
+                && Objects.equals(getFirstName(), u.getFirstName())
+                && Objects.equals(getLastName(), u.getLastName())
+                && Objects.equals(getPassword(), u.getPassword())
+                && Objects.equals(getUsername(), u.getUsername())
+                && Objects.equals(getRole(), u.getRole())
+                && Objects.equals(isRemoved(), u.isRemoved());
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 31)
+                .append(getId())
+                .append(getEmail())
+                .append(getFirstName())
+                .append(getLastName())
+                .append(getPassword())
+                .append(getUsername())
+                .append(getRole())
+                .append(isRemoved())
+                .toHashCode();
     }
 }

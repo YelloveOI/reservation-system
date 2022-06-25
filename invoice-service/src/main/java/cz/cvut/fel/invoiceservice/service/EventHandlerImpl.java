@@ -27,6 +27,12 @@ public class EventHandlerImpl implements EventHandler {
         this.publisher = publisher;
     }
 
+    /**
+     * Async function listening to Creation reservation and Cancelling it. On creating reservation it creates
+     * a corresponding invoice and on cancelling a reservation it marks all assigned invoices as deleted.
+     * @param event reservation event - Created/Cancelled
+     * @return completable futureS
+     */
     @Override
     public CompletableFuture<Void> onEvent(final ReservationEvent event) {
         return CompletableFuture.runAsync(() -> {

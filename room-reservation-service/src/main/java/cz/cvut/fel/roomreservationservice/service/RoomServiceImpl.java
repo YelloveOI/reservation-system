@@ -44,7 +44,11 @@ public class RoomServiceImpl implements RoomService {
 
         repo.save(room.get());
 
+<<<<<<< HEAD
         logger.info(String.format("Room with id %s blocked"), roomId.toString());
+=======
+        logger.info(String.format("Room with id %s blocked", roomId));
+>>>>>>> c42d61d05f42f17ad7bd1a6d27de1cbfa27bef60
     }
 
     @Override
@@ -68,7 +72,7 @@ public class RoomServiceImpl implements RoomService {
 
         repo.save(room.get());
 
-        logger.info(String.format("Room with id %s deleted"), roomId);
+        logger.info(String.format("Room with id %s deleted", roomId));
 
     }
 

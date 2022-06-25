@@ -67,5 +67,17 @@ public class SystemInitializer {
         LOG.info("Generated admin user with credentials " + admin.getUsername() + "/" + admin.getPassword());
         userService.createUser(admin);
     }
+
+    static User generateUser() {
+        final User user = new User();
+        user.setUsername("Tom55");
+        user.setFirstName("Thomas");
+        user.setLastName("Andersen");
+        user.setPassword("NoWayHose");
+        user.setRole(Role.CUSTOMER);
+        user.setEmail("thomas.ande@nss.cvut.cz");
+        user.setRemoved(false);
+        return user;
+    }
 }
 
